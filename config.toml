@@ -1,0 +1,21 @@
+baseURL = 'https://reveille.xyz/'
+languageCode = 'en-us'
+theme = 'mini'
+title = 'reveille.xyz'
+enableRobotsTXT = true
+googleAnalytics = 'G-7EY4VVTEDS'
+publishDir = 'docs'
+enableEmoji = true
+
+[minify]
+  minifyOutput = true
+
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
+[params]
+  author = 'Sakib Hasan'
+  description = 'by Sakib Hasan'

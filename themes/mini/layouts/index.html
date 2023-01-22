@@ -1,0 +1,25 @@
+{{ define "main" }}
+<section class="intro">
+  {{ .Content }}
+</section>
+<section class="latest">
+  <h2>Latest posts</h2>
+  <ol class="list">
+    {{ $pages := where site.RegularPages "Type" "in" site.Params.mainSections }}
+    {{ range $pages.ByPublishDate.Reverse }}
+    <li>
+      <p><time datetime="{{ .Date }}" class="meta">{{ .Date.Format "2006-01-02" }}</time> <span>&#8212;</span> <a href="{{ .RelPermalink }}">{{ .Title }}</a></p></li>
+    {{ end }}
+  </ol>
+  <p class="right"><a href="/posts/">All posts >></a></p>
+</section>
+<section class="projects hidden">
+  <h2>Projects</h2>
+  projects with mini description
+</section>
+<section class="hobbies hidden">
+  <h2>Paintings</h2>
+  hobbies such as painting etc
+</section>
+
+{{ end }}

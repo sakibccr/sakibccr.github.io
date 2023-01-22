@@ -1,0 +1,12 @@
+1. Review all the allowed tags in <head> and add appropriate ones
+2. Better style for <a> tags?
+3. Check if anything else can be done to make the site more readable
+4. Test accessibility
+5. Test in other devices
+6. Add a readme
+7. Publish
+8. Write more posts
+9. Add image gallery (enlarge on click)
+10. Consider adding eye candies such as animated texts etc.
+11. Check google analytics
+12. 
