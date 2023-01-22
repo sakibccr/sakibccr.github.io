@@ -7,14 +7,25 @@ googleAnalytics = 'G-7EY4VVTEDS'
 publishDir = 'docs'
 enableEmoji = true
 
+pygmentsCodeFences = true
+
+
 [minify]
   minifyOutput = true
-
 
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
+
+  [markup.highlight]
+    guessSyntax = true
+    hl_inline = false
+    lineNos = true
+    lineNumbersInTable = true
+    noClasses = true
+    style = "gruvbox"
+    tabWidth = 4
 
 [params]
   author = 'Sakib Hasan'

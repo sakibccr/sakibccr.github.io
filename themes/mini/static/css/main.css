@@ -146,3 +146,16 @@ dd {
 blockquote, dd {
   padding-left: 2.5em;
 }
+
+.highlight {
+  overflow-x: auto;
+}
+
+p code {
+  background-color: #282828;
+  color: #ebdbb2;
+  font-size: 12px;
+  border: 1px solid #575142;
+  border-radius: 3px;
+  padding: 2px 3px 1px;
+}
