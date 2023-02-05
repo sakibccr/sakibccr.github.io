@@ -4,7 +4,7 @@ date: 2023-01-17T17:46:44+06:00
 draft: false
 ---
 
-{{% figure src="/img/sakib/portrait.jpg" title="Me in the winter of 2022" %}}
+{{% figure src="/img/sakib/portrait.jpg" title="Me in the winter of 2022" class="zoom" %}}
 
 My name is **Sakib Hasan**. I live in Dhaka, the capital city of Bangladesh. I write code for a living, enjoy books, movies and good company.
 
