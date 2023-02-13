@@ -4,7 +4,7 @@
   </section>
   <dl>
     {{ range .Pages.ByPublishDate.Reverse }}
-      <dt><a href="{{ .RelPermalink }}">{{ .Title }}</a> <span class="meta">({{ .Date.Format "2006-01-02" }})</span></dt>
+      <dt><a href="{{ .RelPermalink }}">{{ .Title }}</a> <span class="meta subdued">({{ .Date.Format "2006-01-02" }})</span></dt>
       <dd>{{ .Summary }}</dd>
     {{ end }}
   </dl>

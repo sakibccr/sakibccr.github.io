@@ -69,8 +69,11 @@ header a {
   padding: 0;
 }
 
+.list a {
+  text-transform: lowercase;
+}
+
 .list li:hover {
-  color: red;
   font-style: italic;
 }
 
@@ -91,8 +94,11 @@ footer p {
   transform: rotate(180deg);
 }
 
-.meta {
+.subdued {
   color: var(--muted);
+}
+
+.meta {
   font-style: italic;
 }
 

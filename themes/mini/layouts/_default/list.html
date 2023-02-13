@@ -4,7 +4,7 @@
     {{ $pages := where site.RegularPages "Type" "in" site.Params.mainSections }}
     {{ range $pages.ByPublishDate.Reverse }}
     <li>
-      <p><time datetime="{{ .Date }}" class="meta">{{ .Date.Format "2006-01-02" }}</time> <span>&#8212;</span> <a href="{{ .RelPermalink }}">{{ .Title }}</a></p></li>
+      <p><time datetime="{{ .Date }}" class="subdued">{{ .Date.Format "2006-01-02" }}</time> <span>&#8212;</span> <a href="{{ .RelPermalink }}">{{ .Title }}</a></p></li>
     {{ end }}
   </ol>
 {{ end }}

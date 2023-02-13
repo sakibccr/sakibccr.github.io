@@ -1,14 +1,12 @@
 :root {
-  --fg: rgb(203 213 225);
-  --bg: rgba(17,17,17);
+  --fg: #260033;
+  --bg: #fff;
   --muted: #666;
-  --accent: rgb(249 115 22/1);
+  --accent: #f6003c;
 }
 
 html {
-  font-family: 'Lora', serif;
-
-  font-size: 18px;
+  font-family: monospace;
 }
 
 body {
@@ -20,13 +18,20 @@ body {
   overflow-x: hidden;
   word-break: break-word;
   overflow-wrap: break-word;
-  line-height: 1.3;
+  line-height: 1.6;
   color: var(--fg);
   background-color: var(--bg);
+  font-size: 18px;
 }
 
 header, main, footer {
   padding: 0.75rem;
+}
+
+h1, h2, .intro {
+  letter-spacing: -0.3px;
+  line-height: 1.3;
+  text-transform: lowercase;
 }
 
 h1 {
@@ -39,6 +44,10 @@ h2 {
 
 h3 {
   font-size: 1.1em;
+}
+
+p {
+  margin: 10px 0 28px 0;
 }
 
 a {
@@ -60,6 +69,14 @@ header a {
   padding: 0;
 }
 
+.list a {
+  text-transform: lowercase;
+}
+
+.list li:hover {
+  font-style: italic;
+}
+
 ul {
   list-style-type: "— ";
 }
@@ -77,8 +94,11 @@ footer p {
   transform: rotate(180deg);
 }
 
-.meta {
+.subdued {
   color: var(--muted);
+}
+
+.meta {
   font-style: italic;
 }
 
@@ -122,6 +142,7 @@ p img {
 }
 
 section.intro {
+  padding: 20px 0;
   font-size: 1.2em;
 }
 
@@ -145,4 +166,17 @@ dd {
 
 blockquote, dd {
   padding-left: 2.5em;
+}
+
+.highlight {
+  overflow-x: auto;
+}
+
+p code {
+  background-color: #282828;
+  color: #ebdbb2;
+  font-size: 12px;
+  border: 1px solid #575142;
+  border-radius: 3px;
+  padding: 2px 3px 1px;
 }
