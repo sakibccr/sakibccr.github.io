@@ -141,8 +141,11 @@ p img {
   max-width: 200px;
 }
 
-section.intro {
+section {
   padding: 20px 0;
+}
+
+section.intro {
   font-size: 1.2em;
 }
 
