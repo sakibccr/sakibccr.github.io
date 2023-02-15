@@ -5,4 +5,4 @@ draft: false
 source: https://gist.github.com/gtallen1187/e83ed02eac6cc8d7e185
 ---
 
-Consistency beats everything
+Well, I already kinda knew this. But the way it is put in this post is cool.
