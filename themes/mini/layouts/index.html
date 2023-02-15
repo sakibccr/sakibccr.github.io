@@ -3,7 +3,7 @@
   {{ .Content }}
 </section>
 <section class="latest">
-  <h2>Latest posts</h2>
+  <h2>Writing</h2>
   <ol class="list">
     {{ $pages := where site.RegularPages "Type" "in" site.Params.mainSections | first 5 }}
     {{ range $pages.ByPublishDate.Reverse }}
@@ -15,7 +15,7 @@
 </section>
 
 <section class="til">
-  <h2>til: today I learned</h2>
+  <h2>Things I've Learned</h2>
   <ol class="list">
     {{ $pages := where site.RegularPages "Type" "til" | first 5 }}
     {{ range $pages.ByPublishDate.Reverse }}

@@ -4,4 +4,4 @@ date: 2023-02-13T16:33:20+06:00
 draft: false
 ---
 
-Collection of **T**hings **I**'ve **L**earned: TIL
+Collection of things I have learned

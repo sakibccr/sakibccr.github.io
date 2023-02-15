@@ -6,8 +6,10 @@ draft: false
 
 {{% figure src="/img/sakib/portrait.jpg" title="Me in the winter of 2022" class="zoom" %}}
 
-I write code for a living, enjoy books, movies and good company.
+In one of my several lives, I am supposed to be a blogger. That's what I am doing here.
 
-If you think I can be of any help to you, shoot me an email. I always reply emails, no matter what. Here's my address: [sakibccr@gmail.com](mailto:sakibccr@gmail.com)
+Elsewhere, I write computer code. Sometimes I read a book or watch a movie and enjoy good company.
 
-Thanks for you time.
+I can be reached via email: [sakibccr@gmail.com](mailto:sakibccr@gmail.com). I always reply emails, no matter what. (Can be late though.)
+
+Be good. Peace ✌️.
