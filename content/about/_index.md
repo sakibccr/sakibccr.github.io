@@ -1,7 +1,7 @@
 ---
 title: "About"
 date: 2023-03-01T01:50:54+06:00
-draft: true
+draft: false
 ---
 
 Hi there! Thanks for stopping by. I wonder how you found this site!
