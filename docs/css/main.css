@@ -36,12 +36,10 @@ a {
 
 blockquote {
   font-family: sans-serif;
-  font-size: medium;  /* seems to look better */
-  background: #EEE;  /* same color as pre */
-
+  font-size: 16px;
+  background: #EEE;
   margin: 0;
   border-left: 10px solid #ccc;
-  /* Only 1px vertical because <blockquote><p> produces "bulge" */
   padding: 1px 1em;
 }
 
