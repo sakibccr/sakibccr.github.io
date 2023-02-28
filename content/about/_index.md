@@ -6,4 +6,4 @@ draft: true
 
 Hi there! Thanks for stopping by. I wonder how you found this site!
 
-I write software for a living. If you think I can help you in anyway, write me an email here: [sakibccr@gmail.com](mailto:sakibccr@gmail.com). I always reply to emails, no matter what.
+I write software for a living. If you think I can help you in any way, write me an email here: [sakibccr@gmail.com](mailto:sakibccr@gmail.com). I always reply to emails, no matter what.
