@@ -1,12 +1,13 @@
 {{ define "main" }}
-
+<section class="intro">
 {{ .Content }}
+</section>
 <h2>Latest</h2>
-<table>
+<table class="list">
   {{ $pages := where site.RegularPages "Type" "in" site.Params.mainSections }}
   {{ range $pages.ByPublishDate.Reverse }}
   <tr>
-    <td class="date">{{ .Date.Format "Jan 02, 2006" }}</td>
+    <td class="info">{{ .Date.Format "Jan 02, 2006" }}</td>
     <td><a href="{{ .RelPermalink }}">{{ .Title }}</a></td>
   </tr>
   {{ end }}

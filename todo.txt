@@ -1,7 +1,4 @@
 1. Review all the allowed tags in <head> and add appropriate ones
 2. Check google analytics
-3. In TIL section, what happens when the source is not an URI
-4. Check minification
-5. See if image resize and minification can be done automatically
-6. Write more
-12. Test accessibility
+3. Add css for image. Outside p tags and inside.
+4. Add a TIL section maybe?
