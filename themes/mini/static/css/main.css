@@ -51,6 +51,21 @@ pre {
   overflow: auto;
 }
 
+figure {
+  margin: 2em 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+figcaption h4 {
+  font-family: sans;
+  font-size: 14px;
+  color: var(--muted);
+  font-weight: normal;
+}
+
 a {
   text-decoration: none;
 }
