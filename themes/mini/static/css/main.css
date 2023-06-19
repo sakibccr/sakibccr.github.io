@@ -1,6 +1,6 @@
 :root {
-  --fg: #444;
-  --bg: #fff;
+  --fg: #1b1b1b;
+  --bg: #f0efd1;
   --muted: #555;
   --accent: #00f;
 }
@@ -15,6 +15,7 @@ body {
   margin: 0 auto;
   line-height: 1.4;
   max-width: 30em;
+  font-family: sans-serif;
   font-size: 18px;
 }
 
@@ -35,7 +36,6 @@ a {
 }
 
 blockquote {
-  font-family: sans-serif;
   font-size: 16px;
   background: #EEE;
   margin: 0;
@@ -60,7 +60,6 @@ img {
 }
 
 figcaption h4 {
-  font-family: sans;
   font-size: 14px;
   color: var(--muted);
   font-weight: normal;
@@ -99,4 +98,14 @@ a:hover {
 
 section.intro {
   text-align: center;
+  color: var(--muted);
+}
+
+.poetry {
+  list-style-type: none;
+  padding: 0;
+}
+
+.indent4 {
+  text-indent: 4ch;
 }

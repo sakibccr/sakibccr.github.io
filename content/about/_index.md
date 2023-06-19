@@ -4,7 +4,7 @@ date: 2023-03-01T01:50:54+06:00
 draft: false
 ---
 
-{{< figure src="/img/me/self.jpg" title="Self portrait" >}}
+{{< figure src="/img/me/self.png" title="Playing in the rain with Nasim and Nazmul" >}}
 
 Hi there! Thanks for stopping by. I wonder how you found this site!
 
