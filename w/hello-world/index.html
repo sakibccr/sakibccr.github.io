@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>reveille.xyz | Hello World — Sakib Hasan</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌱</text></svg>">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width" initial-scale=1>
+
+<link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+
+<body id="hello-world">
+<header><nav><a href="/">reveille.xyz</a></nav></header>
+<main>
+<article>
+<h1>Hello World</h1>
+<p><time class="meta" datetime="2023-01-17">2023-01-17</time></p>
+<p>I have been trying to maintain a personal blog for a while now. I short list domain names, write draft posts and keep making design changes for the website. But I never get around actually publishing anything in the end.</p>
+<p>Today I have decided to end this. I won’t make any more designs or choose another domain name. I will stick to the current one and I will post whatever I write no matter how bad. Perfection is probably only meant to be pursued, but never achieved.</p>
+<p>A few good things happened doing this though. I learned CSS a little better. Without this, I wouldn’t have learnt about flex box model or grid layout. I also tinkered with a lot of static site generators. These are fun tools. In the end I settled for Sunaina Pai's awesome <a href="https://github.com/sunainapai/makesite">makesite.py</a> because I can customize it easily.</p>
+<p>Alright that’s all for now. I will publish another post soon.</p>
+
+</article>
+<section class="ghost">
+<p id="thing">🍃</p>
+</section>
+
+</main>
+<footer><p class="meta"><span class="copyleft">&copy;</span> No rights reserved</p></footer>
+
+<script>
+const things = ["🍃", "🌱", "🌵", "💥", "☄️", "⚡", "👻", "🤖", "I love candy", "🐆", "🐅", "🐱", "🐈‍⬛", "🐈"]
+document.getElementById("thing").innerHTML = things[Math.floor(Math.random()*things.length)];
+</script>
+</body>
+</html>

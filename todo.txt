@@ -1,4 +1,0 @@
-1. Review all the allowed tags in <head> and add appropriate ones
-2. Check google analytics
-3. Add css for image. Outside p tags and inside.
-4. Add a TIL section maybe?

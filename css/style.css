@@ -1,0 +1,118 @@
+html {
+background-color: #88C1FF;
+color: #000000;
+}
+
+body {
+margin: 0;
+font-size: 1.1rem;
+display: flex;
+flex-direction: column;
+min-height: 100vh;
+}
+
+header, main, footer {
+max-width: 592px;
+}
+
+header {
+padding: 5vw 5vw 1vw 5vw;
+}
+
+main {
+padding: 5vw;
+}
+
+footer {
+margin-top: auto;
+padding: 1vw 5vw;
+}
+
+h1, h2, h3 {
+font-family: sans-serif;
+font-weight: normal;
+margin-top: 1.6em;
+}
+
+h1 {
+font-size: 1.5rem;
+}
+
+h2 {
+font-size: 1.3rem;
+}
+
+h3 {
+font-size: 1.2rem;
+}
+
+ul {
+list-style-type: circle;
+}
+
+main p, main ul {
+margin: 8px 0 40px 0;
+}
+
+.ghost p {
+margin: 10vw 0 0 0;
+text-align: center;
+color: rgba(95, 95, 95, 0.5);
+}
+
+footer p {
+margin: 0;
+}
+
+a {
+color: #473bf0;
+text-decoration: none;
+}
+
+a:hover {
+text-decoration: underline;
+text-decoration-style: wavy;
+}
+
+table {
+border-collapse: collapse;
+}
+
+td {
+padding: 1px 7px 1px 0;
+vertical-align: top;
+}
+
+.meta {
+color: #343a40;
+}
+
+.copyleft {
+display: inline-block;
+transform: rotate(180deg);
+vertical-align: middle;
+}
+
+nav, footer, time {
+font-family: monospace;
+}
+
+pre {
+background-color: #87a5c6;
+padding: .2em .4em;
+}
+
+pre code {
+padding: 0;
+}
+
+code {
+font-family: monospace;
+padding: .2em .4em;
+margin: 0;
+font-size: 85%;
+white-space: break-spaces;
+background-color: #87a5c6;
+border-radius: 6px;
+}
+
