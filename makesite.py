@@ -169,10 +169,10 @@ def make_list(posts, dest, list_layout, item_layout, **params):
 
 
 def main():
-    # Create a new public directory from scratch.
-    if os.path.isdir('public'):
-        shutil.rmtree('public')
-    shutil.copytree('static', 'public')
+    # Create a new _site directory from scratch.
+    if os.path.isdir('_site'):
+        shutil.rmtree('_site')
+    shutil.copytree('static', '_site')
 
     # Default parameters.
     params = {
@@ -199,26 +199,26 @@ def main():
     home_layout = render(page_layout, content=home_layout)
 
     # site pages such as about, contact etc
-    make_pages('content/[!_]*.html', 'public/{{ slug }}/index.html',
+    make_pages('content/[!_]*.html', '_site/{{ slug }}/index.html',
                page_layout, **params)
 
     # Create blogs.
     blog_posts = make_pages('content/blog/*.md',
-                            'public/w/{{ slug }}/index.html',
+                            '_site/w/{{ slug }}/index.html',
                             post_layout, blog='w', **params)
     til_posts = make_pages('content/til/*.md',
-                            'public/til/{{ slug }}/index.html',
+                            '_site/til/{{ slug }}/index.html',
                             post_layout, blog='til', **params)
 
     # Create blog list pages.
-    make_list(blog_posts, 'public/w/index.html',
+    make_list(blog_posts, '_site/w/index.html',
               list_layout, table_tr, blog='w', title='Blog', **params)
-    make_list(til_posts, 'public/til/index.html',
+    make_list(til_posts, '_site/til/index.html',
               til_layout, list_li, blog='til', title='TIL', **params)
 
     # # create home page. Home page is a list page.
 
-    make_list(blog_posts, 'public/index.html',
+    make_list(blog_posts, '_site/index.html',
               home_layout, table_tr, blog='w', title='Home', **params)
 
 

@@ -1,10 +1,10 @@
 #!/bin/bash
 
 echo "Initiating build..."
-rm -r public
+rm -r _site
 python makesite.py
 
 echo "Build complete."
 echo "Starting python server..."
-cd public
+cd _site
 python -m http.server

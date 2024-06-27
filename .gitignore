@@ -6,3 +6,4 @@ htmlcov
 .DS_Store
 venv
 public
+_site
