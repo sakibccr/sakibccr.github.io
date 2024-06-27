@@ -1,0 +1,35 @@
+name: Makefile CI
+
+on:
+  push
+
+jobs:
+  build:
+    runs-on: macos-12
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v1
+    - uses: BSFishy/pip-action@v1
+      with:
+        packages:
+          commonmark==0.9.1
+            
+    - name: Build site
+      run: python makesite.py
+
+    - name: Upload GitHub Pages artifact
+      uses: actions/upload-pages-artifact@v3.0.0
+
+  deploy:
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: macos-12
+    steps:
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4.0.2

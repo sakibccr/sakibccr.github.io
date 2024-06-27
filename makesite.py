@@ -32,8 +32,8 @@ import shutil
 import re
 import glob
 import sys
-import json
 import datetime
+from rich import print
 
 
 def fread(filename):
@@ -73,7 +73,7 @@ def read_headers(text):
 def rfc_2822_format(date_str):
     """Convert yyyy-mm-dd date string to RFC 2822 format date string."""
     d = datetime.datetime.strptime(date_str, '%Y-%m-%d')
-    return d.strftime('%a, %d %b %Y %H:%M:%S +0000')
+    return d.strftime('%B %d, %Y')
 
 
 def read_content(filename):
@@ -123,7 +123,7 @@ def render(template, **params):
                   template)
 
 
-def make_pages(src, dst, layout, **params):
+def make_pages(src, dest, layout, **params):
     """Generate pages from page content."""
     items = []
 
@@ -131,6 +131,8 @@ def make_pages(src, dst, layout, **params):
         content = read_content(src_path)
 
         page_params = dict(params, **content)
+
+        page_params['doc_title'] = f"{page_params['tld']} | {page_params['title']} — {page_params['author']}"
 
         # Populate placeholders in content if content-rendering is enabled.
         if page_params.get('render') == 'yes':
@@ -140,16 +142,16 @@ def make_pages(src, dst, layout, **params):
 
         items.append(content)
 
-        dst_path = render(dst, **page_params)
+        dest_path = render(dest, **page_params)
         output = render(layout, **page_params)
 
-        log('Rendering {} => {} ...', src_path, dst_path)
-        fwrite(dst_path, output)
+        log('Rendering {} => {} ...', src_path, dest_path)
+        fwrite(dest_path, output)
 
     return sorted(items, key=lambda x: x['date'], reverse=True)
 
 
-def make_list(posts, dst, list_layout, item_layout, **params):
+def make_list(posts, dest, list_layout, item_layout, **params):
     """Generate list page for a blog."""
     items = []
     for post in posts:
@@ -159,69 +161,66 @@ def make_list(posts, dst, list_layout, item_layout, **params):
         items.append(item)
 
     params['content'] = ''.join(items)
-    dst_path = render(dst, **params)
+    params['doc_title'] = f"{params['tld']} — {params['author']}"
+    dest_path = render(dest, **params)
     output = render(list_layout, **params)
 
-    log('Rendering list => {} ...', dst_path)
-    fwrite(dst_path, output)
+    log('Rendering list => {} ...', dest_path)
+    fwrite(dest_path, output)
 
 
 def main():
-    # Create a new _site directory from scratch.
-    if os.path.isdir('_site'):
-        shutil.rmtree('_site')
-    shutil.copytree('static', '_site')
+    # Create a new public directory from scratch.
+    if os.path.isdir('public'):
+        shutil.rmtree('public')
+    shutil.copytree('static', 'public')
 
     # Default parameters.
     params = {
         'base_path': '',
-        'subtitle': 'Lorem Ipsum',
-        'author': 'Admin',
+        'tld': 'reveille.xyz',
+        'author': 'SH',
         'site_url': 'http://localhost:8000',
         'current_year': datetime.datetime.now().year
     }
-
-    # If params.json exists, load it.
-    if os.path.isfile('params.json'):
-        params.update(json.loads(fread('params.json')))
 
     # Load layouts.
     page_layout = fread('layout/page.html')
     post_layout = fread('layout/post.html')
     list_layout = fread('layout/list.html')
-    item_layout = fread('layout/item.html')
-    feed_xml = fread('layout/feed.xml')
-    item_xml = fread('layout/item.xml')
+    til_layout = fread('layout/til.html')
+    home_layout = fread('layout/home.html')
+    table_tr = fread('layout/table_tr.html')
+    list_li = fread('layout/list_li.html')
 
     # Combine layouts to form final layouts.
     post_layout = render(page_layout, content=post_layout)
     list_layout = render(page_layout, content=list_layout)
+    til_layout = render(page_layout, content=til_layout)
+    home_layout = render(page_layout, content=home_layout)
 
-    # Create site pages.
-    make_pages('content/_index.html', '_site/index.html',
-               page_layout, **params)
-    make_pages('content/[!_]*.html', '_site/{{ slug }}/index.html',
+    # site pages such as about, contact etc
+    make_pages('content/[!_]*.html', 'public/{{ slug }}/index.html',
                page_layout, **params)
 
     # Create blogs.
     blog_posts = make_pages('content/blog/*.md',
-                            '_site/blog/{{ slug }}/index.html',
-                            post_layout, blog='blog', **params)
-    news_posts = make_pages('content/news/*.html',
-                            '_site/news/{{ slug }}/index.html',
-                            post_layout, blog='news', **params)
+                            'public/w/{{ slug }}/index.html',
+                            post_layout, blog='w', **params)
+    til_posts = make_pages('content/til/*.md',
+                            'public/til/{{ slug }}/index.html',
+                            post_layout, blog='til', **params)
 
     # Create blog list pages.
-    make_list(blog_posts, '_site/blog/index.html',
-              list_layout, item_layout, blog='blog', title='Blog', **params)
-    make_list(news_posts, '_site/news/index.html',
-              list_layout, item_layout, blog='news', title='News', **params)
+    make_list(blog_posts, 'public/w/index.html',
+              list_layout, table_tr, blog='w', title='Blog', **params)
+    make_list(til_posts, 'public/til/index.html',
+              til_layout, list_li, blog='til', title='TIL', **params)
 
-    # Create RSS feeds.
-    make_list(blog_posts, '_site/blog/rss.xml',
-              feed_xml, item_xml, blog='blog', title='Blog', **params)
-    make_list(news_posts, '_site/news/rss.xml',
-              feed_xml, item_xml, blog='news', title='News', **params)
+    # # create home page. Home page is a list page.
+
+    make_list(blog_posts, 'public/index.html',
+              home_layout, table_tr, blog='w', title='Home', **params)
 
 
 # Test parameter to be set temporarily by unit tests.

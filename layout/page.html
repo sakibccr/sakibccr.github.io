@@ -1,42 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{{ title }} - {{ subtitle }}</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" type="text/css" href="{{ base_path }}/css/style.css">
+<title>{{ doc_title }}</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤸‍♂️</text></svg>">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width" initial-scale=1>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lekton:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" type="text/css" href="{{ base_path }}/css/style.css">
 </head>
 
-<body id="{{ slug }}">
-
-<nav>
-<section>
-    <span class="home">
-        <a href="{{ base_path }}/">Home</a>
-    </span>
-    <span class="links">
-        <a href="{{ base_path }}/blog/">Blog</a>
-        <a href="{{ base_path }}/news/">News</a>
-        <a href="{{ base_path }}/contact/">Contact</a>
-        <a href="{{ base_path }}/about/">About</a>
-    </span>
-</section>
-</nav>
-
+<body id="{{slug}}">
+<header><nav><a href="/about/" class="info">What is this?</a> | <a href="/til/">TIL</a> | <a href="/">reveille.xyz</a></nav></header>
 <main>
 {{ content }}
 </main>
-
 <footer>
-<section>
-<p>&copy; {{ current_year }} Lorem Ipsum</p>
-<p>
-    <a href="https://twitter.com/sunainapai">Twitter</a>
-    <a href="https://github.com/sunainapai">GitHub</a>
-    <a href="https://www.example.com/">Example</a>
-</p>
-</section>
+<p id="thing" class="ghost">🍃</p>
+<p class="meta"><span class="copyleft">&copy;</span> No rights reserved</p>
 </footer>
 
+<script>
+const things = ["🍃", "🌱", "🌵", "💥", "☄️", "⚡", "👻", "🤖", "I love candy", "🐆", "🐅", "🐱", "🐈‍⬛", "🐈"]
+document.getElementById("thing").innerHTML = things[Math.floor(Math.random()*things.length)];
+</script>
 </body>
 </html>
