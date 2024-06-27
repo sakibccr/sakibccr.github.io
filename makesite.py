@@ -33,7 +33,6 @@ import re
 import glob
 import sys
 import datetime
-from rich import print
 
 
 def fread(filename):

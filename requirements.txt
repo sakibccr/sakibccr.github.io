@@ -17,7 +17,6 @@ prompt-toolkit==3.0.38
 ptyprocess==0.7.0
 pure-eval==0.2.2
 Pygments==2.15.1
-rich==13.4.2
 setuptools==65.5.1
 six==1.16.0
 stack-data==0.6.2
