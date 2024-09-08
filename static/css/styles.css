@@ -1,0 +1,122 @@
+:root {
+  --bg: #fff;
+  --fg: #272727;
+  --theme: #000;
+  --muted: #999;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: 768px;
+  margin: 0 auto;
+}
+
+nav, main, footer {
+  font-size: 1.2em;
+  padding: 20px;
+}
+
+section {
+  margin-bottom: 40px;
+}
+
+a {
+  color: var(--theme);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: var(--muted);
+}
+
+nav a {
+  text-decoration: underline;
+}
+
+h1 {
+  font-size: 1rem;
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-top: 0;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+td:last-child {
+  padding-left: 1em;
+}
+
+blockquote {
+  font-family: cursive;
+  color: var(--muted);
+  padding-left: 1em;
+  margin-left: 0;
+  border-left: 4px solid var(--muted);
+}
+
+figure {
+  margin: 0;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  margin: 1em 0;
+}
+
+p img {
+  max-width: 33%;
+  float: right;
+  margin: 0px 0px 15px 20px;
+}
+
+code {
+  padding: 2px 5px;
+  font-family: monospace;
+  font-size: 0.9em;
+  background-color: var(--bg);
+  border-radius: 3px;
+}
+
+footer {
+  margin-top: auto;
+  padding-bottom: 0;
+}
+
+footer p {
+  margin-bottom: 5px;
+}
+
+.intro {
+  color: green;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.italic {
+  font-style: italic;
+}
+
+.copyleft {
+  display: inline-block;
+  transform: scale(-1, 1);
+}

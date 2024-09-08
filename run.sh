@@ -1,10 +1,16 @@
 #!/bin/bash
 
 echo "Initiating build..."
-rm -r _site
+BUILD_DIR="_site"
+# if [ -d "$BUILD_DIR" ]; then
+#     echo "Removing $BUILD_DIR"
+#     rm -Rf $BUILD_DIR;
+#     echo "Done."
+# fi
+echo "Converting markdown to html..."
 python makesite.py
 
 echo "Build complete."
 echo "Starting python server..."
-cd _site
+cd $BUILD_DIR
 python -m http.server

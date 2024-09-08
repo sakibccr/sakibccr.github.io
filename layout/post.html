@@ -1,5 +1,7 @@
-<article>
+{% extends "base.html" %}
+
+{% block content -%}
 <h1>{{ title }}</h1>
-<p><time class="meta" datetime="{{ rfc_2822_date }}">{{ rfc_2822_date }}</time></p>
-{{ content }}
-</article>
+<p><time class="muted italic" datetime="{{ date.strftime('%F') }}">{{ date.strftime('%B %d, %Y') }}</time></p>
+{{ content | safe }}
+{%- endblock %}

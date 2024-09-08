@@ -1,10 +1,15 @@
-<section class="intro">
-<h2>Hello 🖖</h2>
-<p>In one of my several lives, I am supposed to be a writer. In this website, I am trying to learn that.</p>
-<p>Thanks for stopping by. 🙇</p>
-</section>
+{% extends "base.html" %}
 
-<h2>Writing ✍️</h2>
+{% block content -%}
+<section>
+<p>In one of my several lives, I am supposed to be a writer. In this silly blog, I am trying to learn that.</p>
+</section>
+<h1>Blog</h1>
 <table>
-{{ content }}
+{% for post in posts -%}
+<td><time class="muted" datetime="{{ post.date.strftime('%F') }}">{{ post.date.strftime('%d-%b-%y') }}</time></td>
+<td><a href="/{{ post.url }}">{{ post.title }}</a></td>
+{%- endfor %}
 </table>
+
+{%- endblock %}

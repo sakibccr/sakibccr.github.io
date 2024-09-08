@@ -1,0 +1,6 @@
+1. Add support for generating empty post with front matter and current filename so that I don't have to write it every time I post an article
+2. Add image support
+3. Test in other platforms. Test with large number of posts
+4. Config variables are now hardcoded in the source now. Add a config file and read these from there.
+5. Add support for categories. Currently, all the posts are published under one single collection.
+6. Add support for draft posts.

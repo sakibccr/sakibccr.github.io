@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+    {% if title is defined %}
+    » {{ title }} &mdash; {{ tld }}
+    {% else %}
+    ⁘ {{ tld }} &mdash; Home
+    {% endif %}
+</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Text&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/{{static_dir}}/css/styles.css">
+</head>
+<body>
+<nav><a href="/">{{ tld }}</a></nav>
+
+<main>
+{% block content -%}{%- endblock %}
+</main>
+
+{% block footer -%}
+<footer>
+<p class="muted"><span class="copyleft">&copy;</span> No rights reserved. Current year is {{ now.strftime('%Y') }} (whatever that means).</p>
+</footer>
+{%- endblock %}
+</body>
+</html>
