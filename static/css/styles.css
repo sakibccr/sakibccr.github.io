@@ -13,7 +13,7 @@ body, html {
   font-family: serif;
   font-weight: 400;
   font-style: normal;
-  font-size: 18px;
+  font-size: calc(0.75em + 1vmin);
   line-height: 1.4;
 }
 
