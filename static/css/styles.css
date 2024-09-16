@@ -21,13 +21,20 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  max-width: 768px;
+  max-width: 592px;
   margin: 0 auto;
+  font-size: 1.2em;
 }
 
 nav, main, footer {
-  font-size: 1.2em;
   padding: 20px 10px;
+}
+
+article {
+  overflow-wrap: break-word;
+  word-break: break-word;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 section {
@@ -100,7 +107,7 @@ code {
 footer {
   margin-top: auto;
   padding-bottom: 0;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 footer p {
