@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 
 {% block content -%}
+<article>
 <h1>{{ title }}</h1>
 <p><time class="muted italic" datetime="{{ date.strftime('%F') }}">{{ date.strftime('%B %d, %Y') }}</time></p>
 {{ content | safe }}
+</article>
 {%- endblock %}

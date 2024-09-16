@@ -1,6 +1,7 @@
 import shutil, re, datetime, markdown
 from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
+from image_compressor import compress_images
 from rich import print
 import ipdb
 
@@ -87,3 +88,4 @@ class SiteGenerator:
 
 if __name__ == '__main__':
     SiteGenerator().build()
+    compress_images('_site/static/assets/images')

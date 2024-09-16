@@ -1,0 +1,50 @@
+from PIL import Image
+from pathlib import Path
+import os
+import logging
+
+# Setup logging
+logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
+
+def resize_image(image_obj, width=768):
+    """Resize image while maintaining the aspect ratio."""
+    aspect_ratio = image_obj.height / image_obj.width
+    new_height = int(width * aspect_ratio)
+    return image_obj.resize((width, new_height), Image.Resampling.LANCZOS)
+
+def convert_to_monochrome(image_obj):
+    """Convert the image to monochrome (black and white)."""
+    return image_obj.convert('L')  # '1' mode for monochrome
+
+def process_image(image_path):
+    """Resize, grayscale, and compress the image."""
+    try:
+        with Image.open(image_path) as img:
+            original_size = os.path.getsize(image_path)
+
+            # Resize and convert the image
+            resized_img = resize_image(img)
+            monochrome_img = convert_to_monochrome(resized_img)
+
+            # Save the image back to its original path with compression
+            monochrome_img.save(image_path, format=img.format, quality=50, optimize=True)
+
+            # Log the compression details
+            compressed_size = os.path.getsize(image_path)
+            logging.info(f"Compressed {image_path.name}: {original_size / 1024:.2f} KB -> {compressed_size / 1024:.2f} KB")
+
+    except Exception as e:
+        logging.error(f"Error processing {image_path}: {e}")
+
+def compress_images(directory_path):
+    """Iterate over images in a directory and compress them."""
+    image_extensions = {'.jpg', '.jpeg', '.png'}  # Add common extensions
+    directory = Path(directory_path)
+
+    # Iterate through all image files in the directory recursively
+    for image_path in directory.rglob('*'):
+        if image_path.suffix.lower() in image_extensions:
+            process_image(image_path)
+
+# Example usage:
+# compress_images_in_directory('/path/to/images')
