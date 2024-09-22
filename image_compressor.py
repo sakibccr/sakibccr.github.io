@@ -1,4 +1,4 @@
-from PIL import Image
+from PIL import Image, ImageOps
 from pathlib import Path
 import os
 import logging
@@ -14,7 +14,9 @@ def resize_image(image_obj, width=768):
 
 def convert_to_monochrome(image_obj):
     """Convert the image to monochrome (black and white)."""
-    return image_obj.convert('L')  # '1' mode for monochrome
+    gray_image = image_obj.convert('L')  # '1' mode for monochrome
+    tinted_image = ImageOps.colorize(gray_image, black="#260707", white="#fe4a08")
+    return tinted_image
 
 def process_image(image_path):
     """Resize, grayscale, and compress the image."""
