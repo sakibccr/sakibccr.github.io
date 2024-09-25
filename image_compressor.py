@@ -1,4 +1,5 @@
 from PIL import Image, ImageOps
+import hitherdither
 from pathlib import Path
 import os
 import logging
@@ -18,6 +19,14 @@ def convert_to_monochrome(image_obj):
     tinted_image = ImageOps.colorize(gray_image, black="#260707", white="#fe4a08")
     return tinted_image
 
+def dither(image_obj):
+    palette = hitherdither.palette.Palette(
+        [(25,25,25), (75,75,75),(125,125,125),(175,175,175),(225,225,225),(250,250,250)]
+    )
+    threshold = [96, 96, 96]
+    img_dithered = hitherdither.ordered.bayer.bayer_dithering(image_obj, palette, threshold, order=8) #see hither dither documentation for different dithering algos
+    return img_dithered
+
 def process_image(image_path):
     """Resize, grayscale, and compress the image."""
     try:
@@ -26,10 +35,11 @@ def process_image(image_path):
 
             # Resize and convert the image
             resized_img = resize_image(img)
-            monochrome_img = convert_to_monochrome(resized_img)
+#            img = convert_to_monochrome(resized_img)
+            img = dither(resized_img)
 
             # Save the image back to its original path with compression
-            monochrome_img.save(image_path, format=img.format, quality=50, optimize=True)
+            img.convert('RGB').save(image_path, format=img.format, quality=50, optimize=True)
 
             # Log the compression details
             compressed_size = os.path.getsize(image_path)

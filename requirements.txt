@@ -1,6 +1,7 @@
 asttokens==2.4.1
 decorator==5.1.1
 executing==2.0.1
+hitherdither @ git+https://www.github.com/hbldh/hitherdither@0f3bbc44595aea2a20c4b96d8f536b05ac34e2a1
 ipdb==0.13.13
 ipython==8.26.0
 jedi==0.19.1
@@ -10,6 +11,7 @@ markdown-it-py==3.0.0
 MarkupSafe==2.1.5
 matplotlib-inline==0.1.7
 mdurl==0.1.2
+numpy==2.1.1
 parso==0.8.4
 pexpect==4.9.0
 pillow==10.4.0
