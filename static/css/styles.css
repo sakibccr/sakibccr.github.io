@@ -1,6 +1,6 @@
 :root {
     --bg: #fff;
-    --fg: #272727;
+    --fg: #404040;
     --theme: #3f00ff;
     --muted: #999;
 }
@@ -12,7 +12,7 @@ html {
     background: var(--bg);
     color: var(--fg);
 
-    font-family: "Open Sans", sans-serif;
+    font-family: "Open Sans", serif;
     font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
@@ -20,6 +20,7 @@ html {
 
     font-size: 18px;
     line-height: 1.4;
+    overflow_wrap: break-word;
 }
 
 body {
@@ -62,13 +63,14 @@ nav a {
     font-optical-sizing: auto;
     font-weight: 700;
     font-style: normal;
+    font-variation-settings: "wdth" 100;
+    line-height: 1.1;
+    letter-spacing: -1px;
 }
 
 h1 {
     font-size: 1.4rem;
     margin-top: 0;
-    line-height: 1.1;
-    letter-spacing: -1px;
 }
 
 table {
@@ -140,5 +142,9 @@ footer p {
 @media (max-width: 592px) {
     body {
         font-size: 16px;
+    }
+
+    .smol {
+        font-size: 14px;
     }
 }
