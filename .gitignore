@@ -1,0 +1,9 @@
+_site
+*.pyc
+__pycache__
+htmlcov
+*.sw?
+.DS_Store
+venv
+public
+_site
