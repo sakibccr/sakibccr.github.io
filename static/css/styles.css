@@ -72,6 +72,14 @@ table {
     border-collapse: collapse;
 }
 
+td {
+    vertical-align: top;
+}
+
+td:first-child {
+    white-space: nowrap;
+}
+
 td:last-child {
     padding-left: 1em;
 }
