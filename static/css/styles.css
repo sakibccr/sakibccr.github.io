@@ -1,8 +1,8 @@
 :root {
-    --bg: #2d1f01;
-    --fg: #d7d7d7;
-    --theme: #fff;
-    --muted: #b2aea5;
+    --bg: #111;
+    --fg: #fefefe;
+    --theme: #FF4500;
+    --muted: #808080;
 }
 
 body,
@@ -12,12 +12,13 @@ html {
     background: var(--bg);
     color: var(--fg);
 
-    font-family: "Lora", serif;
+    font-family: "Oxanium", serif;
+
     font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
 
-    font-size: 18px;
+    font-size: calc(1rem + .2vw);
     line-height: 1.4;
     overflow-wrap: break-word;
 }
@@ -26,7 +27,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    max-width: 592px;
+    max-width: 60ch;
     margin: 0 auto;
 }
 
@@ -84,8 +85,13 @@ td:last-child {
     padding-left: 1em;
 }
 
+ul {
+    list-style-type: circle;
+    list-style-position: inside;
+    padding: 0;
+}
+
 blockquote {
-    font-family: cursive;
     color: var(--muted);
     padding-left: 1em;
     margin-left: 0;
@@ -97,7 +103,7 @@ figure {
 }
 
 img {
-    max-width: 100%;
+    width: 100%;
     height: auto;
     margin: 1em 0;
 }
@@ -126,7 +132,7 @@ footer p {
 }
 
 .smol {
-    font-size: 16px;
+    font-size: calc(1rem + .1vw);
 }
 
 .muted {
@@ -140,14 +146,4 @@ footer p {
 .copyleft {
     display: inline-block;
     transform: scale(-1, 1);
-}
-
-@media (max-width: 592px) {
-    body {
-        font-size: 16px;
-    }
-
-    .smol {
-        font-size: 14px;
-    }
 }
