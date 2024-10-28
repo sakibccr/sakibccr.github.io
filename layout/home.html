@@ -6,7 +6,7 @@
 </section>
 
 <section>
-<h1>Blog</h1>
+<h1>Writings</h1>
 <table>
 {% for post in posts -%}
 <tr>
@@ -25,12 +25,31 @@
 </section>
 
 <section>
+<h1>Paintings</h1>
+<ul class="photo-grid">
+<li><img src="https://placehold.co/600x400" onclick="openPreview(this)"></li>
+<li><img src="https://placehold.co/600x400" onclick="openPreview(this)"></li>
+<li><img src="https://placehold.co/600x400" onclick="openPreview(this)"></li>
+<li><img src="https://placehold.co/600x400" onclick="openPreview(this)"></li>
+</ul>
+</section>
+
+<section>
+<h1>Photos</h1>
+<ul class="photo-grid">
+<li><img src="https://placehold.co/600x400" onclick="openPreview(this)"></li>
+<li><img src="https://placehold.co/600x400" onclick="openPreview(this)"></li>
+<li><img src="https://placehold.co/600x400" onclick="openPreview(this)"></li>
+</ul>
+</section>
+
+<section>
 <h1>Wisdom</h1>
 <p>When I come by of a quote that makes living a little easier, I collect them here.</p>
 
 <blockquote cite="https://www.huxley.net/bnw/four.html">
 <p>Words can be like X-rays, if you use them properly—they'll go through anything. You read and you're pierced.</p></blockquote>
-<p>—Aldous Huxley, <cite>Brave New World</cite></p>
+<p class="right">&mdash; Aldous Huxley, <cite>Brave New World</cite></p>
 </section>
 
 <section>
@@ -46,5 +65,10 @@
     <dd>Analyse and develop an idea or principle in detail</dd>
 </dl>
 </section>
+
+<div class="overlay" id="previewOverlay" onclick="closePreview()">
+<span class="close">&times;</span>
+<img id="previewImage" src="" alt="Full-size Image">
+</div>
 
 {%- endblock %}

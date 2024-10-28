@@ -12,10 +12,14 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@200..800&display=swap" rel="stylesheet">
 
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Arsenal:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
         <link rel="stylesheet" href="/{{static_dir}}/css/styles.css" />
     </head>
     <body>
-        <nav><a href="/">{{ tld }}</a></nav>
+        <nav class="right"><a href="/">{{ tld }}</a></nav>
 
         <main>{% block content -%}{%- endblock %}</main>
 
@@ -27,5 +31,19 @@
             </p>
         </footer>
         {%- endblock %}
+
+        <script>
+            function openPreview(imgElement) {
+                const overlay = document.getElementById("previewOverlay");
+                const previewImage = document.getElementById("previewImage");
+                previewImage.src = imgElement.src; // Set the clicked image source
+                overlay.style.display = "flex"; // Show overlay
+              }
+              
+              function closePreview() {
+                const overlay = document.getElementById("previewOverlay");
+                overlay.style.display = "none"; // Hide overlay
+              }
+        </script>
     </body>
 </html>
