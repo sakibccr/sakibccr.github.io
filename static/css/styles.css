@@ -64,7 +64,12 @@ nav a {
 
 h1 {
     font-size: 1.4rem;
-    margin-top: 0;
+    margin: 0 0 .5rem 0;
+}
+
+h2 {
+    font-size: 1.2rem;
+    margin: 0 0 .5rem 0;
 }
 
 table {
@@ -198,4 +203,15 @@ right: 20px;
 font-size: 30px;
 color: white;
 cursor: pointer;
+}
+
+hr {
+    overflow: visible;
+    box-sizing: content-box;
+    width: 7em;
+    margin-top: 3.5em;
+    margin-bottom: 3em;
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,0.75), rgba(255,255,255,0));
 }
