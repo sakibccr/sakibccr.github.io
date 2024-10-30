@@ -3,7 +3,8 @@ import hitherdither
 from pathlib import Path
 import os
 import logging
-
+from obra_dinn import convert_to_binary
+from dithering_one_bit import convert_image
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 
@@ -56,7 +57,10 @@ def compress_images(directory_path):
     # Iterate through all image files in the directory recursively
     for image_path in directory.rglob('*'):
         if image_path.suffix.lower() in image_extensions:
-            process_image(image_path)
+            # process_image(image_path)
+            convert_to_binary(image_path)
+            # 'bayer', 'halftone', 'contrast', 'pixelated'
+            # convert_image(image_path, style="bayer")
 
 # Example usage:
 # compress_images_in_directory('/path/to/images')
