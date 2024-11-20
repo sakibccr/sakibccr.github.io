@@ -205,6 +205,14 @@ color: white;
 cursor: pointer;
 }
 
+#previewImage {
+object-fit: contain;
+max-width: 100%;
+max-height: 100%;
+width: auto;
+height: auto;
+}
+
 hr {
     overflow: visible;
     box-sizing: content-box;

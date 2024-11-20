@@ -6,4 +6,4 @@
 6. Add support for draft posts.
 7. Add unoffice hours, cal.com, webring, other cool web rings
 8. Incorporate vale.sh
-
+9. Modify the whole script to serve jrnl entries
