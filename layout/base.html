@@ -32,18 +32,5 @@
         </footer>
         {%- endblock %}
 
-        <script>
-            function openPreview(imgElement) {
-                const overlay = document.getElementById("previewOverlay");
-                const previewImage = document.getElementById("previewImage");
-                previewImage.src = imgElement.src; // Set the clicked image source
-                overlay.style.display = "flex"; // Show overlay
-              }
-              
-              function closePreview() {
-                const overlay = document.getElementById("previewOverlay");
-                overlay.style.display = "none"; // Hide overlay
-              }
-        </script>
     </body>
 </html>
