@@ -1,5 +1,5 @@
 <!-- title: Getting fit -->
-<!-- render: yes -->
+<!-- draft: no -->
 
 Today I am starting my quest to live healthy once again. This time, I am inspired by Maswood Islam. He seems to have gotten much fitter in the last couple of months.
 

@@ -1,5 +1,5 @@
 <!-- title: Surviving life: a story -->
-<!-- render: yes -->
+<!-- draft: no -->
 
 <figure>
 <img src="/static/assets/images/spaceship.png">

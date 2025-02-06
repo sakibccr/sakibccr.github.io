@@ -7,12 +7,11 @@ import ipdb
 
 class SiteGenerator:
     def __init__(self, publish_dir='_site',
-                 static_dir='static', layout_dir='layout',
-                 content_dir='content'):
+                 static_dir='static', layout_dir='layout'):
         self.publish_dir = Path(publish_dir)
         self.static_dir = Path(static_dir)
         self.layout_dir = Path(layout_dir)
-        self.content_dir = Path(content_dir)
+        self.base_dir = Path(__file__).resolve().parent
         self.template_env = Environment(loader=FileSystemLoader(self.layout_dir))
         self.params = {
             'tld': 'reveille.xyz',
@@ -65,16 +64,22 @@ class SiteGenerator:
         slug = content['slug']
         return Path(pattern.format(directory=directory, date=date, slug=slug))
 
-    def generate_pages(self, src_pattern, dest_pattern, layout):
+    def generate_pages(self, src_pattern, layout):
         items = []
-        for filepath in self.content_dir.rglob(src_pattern):
+        import ipdb; ipdb.set_trace()
+        for filepath in self.base_dir.rglob(src_pattern):
             content = self.fread(filepath)
             content.update(self.params)
-            output = self.template_env.get_template(layout).render(**content)
-            dest = self.compute_dest(dest_pattern, filepath, content)
-            content['url'] = dest.parent
-            self.fwrite(dest, output)
-            items.append(content)
+
+            if content.get('draft', 'no').lower() in ['true', 'yes', '1']:
+                output = self.template_env.get_template(layout).render(**content)
+                dest = self.compute_dest('{directory}/{date}-{slug}/index.html', filepath, content)
+                content['url'] = dest.parent
+                self.fwrite(dest, output)
+                items.append(content)
+            else:
+                print(f'Skipping {filepath}')
+
         return sorted(items, key=lambda x: x['date'], reverse=True)
 
     def generate_list_page(self, posts, dest, list_layout):
@@ -83,7 +88,11 @@ class SiteGenerator:
 
     def build(self):
         self.setup()
-        blog_posts = self.generate_pages('*.md', '{directory}/{date}-{slug}/index.html', 'post.html')
+
+        # blog posts
+        blog_posts = self.generate_pages('*.md', 'post.html')
+
+        # index page
         self.generate_list_page(blog_posts, 'index.html', 'home.html')
 
 if __name__ == '__main__':

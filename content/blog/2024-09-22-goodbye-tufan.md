@@ -1,5 +1,5 @@
 <!-- title: Rest in peace, Tufan -->
-<!-- render: yes -->
+<!-- draft: no -->
 
 <figure>
 <img src="/static/assets/images/tufan.jpeg">

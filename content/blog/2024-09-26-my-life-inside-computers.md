@@ -1,5 +1,5 @@
 <!-- title: My life inside computers -->
-<!-- render: yes -->
+<!-- draft: no -->
 
 <figure>
 <img src="/static/assets/images/underwater-escape.png">
