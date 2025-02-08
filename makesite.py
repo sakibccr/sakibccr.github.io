@@ -70,7 +70,7 @@ class SiteGenerator:
             content = self.fread(filepath)
             content.update(self.params)
 
-            if content.get('draft', 'no').lower() in ['true', 'yes', '1']:
+            if content.get('draft', 'yes').lower() in ['false', 'no', '0']:
                 output = self.template_env.get_template(layout).render(**content)
                 dest = self.compute_dest('{directory}/{date}-{slug}/index.html', filepath, content)
                 content['url'] = dest.parent
