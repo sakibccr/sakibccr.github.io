@@ -66,7 +66,6 @@ class SiteGenerator:
 
     def generate_pages(self, src_pattern, layout):
         items = []
-        import ipdb; ipdb.set_trace()
         for filepath in self.base_dir.rglob(src_pattern):
             content = self.fread(filepath)
             content.update(self.params)
