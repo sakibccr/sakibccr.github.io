@@ -8,11 +8,16 @@
             ⁘ {{ tld }} &mdash; Home {% endif %}
         </title>
         <link rel="stylesheet" href="/{{static_dir}}/css/styles.css" />
+        <meta name="fediverse:creator" content="@reveille@mastodon.social">
+        <meta name="description" content="Personal blog of Sakib Hasan, covering various topics." />
+        <meta name="keywords" content="blog, personal website, reveille, tech, musings, python, programming, linux, stories" />
+        <meta name="author" content="Sakib Hasan" />
+        <link rel="canonical" href="https://reveille.xyz" />
     </head>
     <body>
         <nav class="right">
-					<a href="/">{{ tld }}</a>
-				</nav>
+            <a href="/">{{ tld }}</a>
+        </nav>
 
         <main>{% block content -%}{%- endblock %}</main>
 
