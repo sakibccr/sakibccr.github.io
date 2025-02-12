@@ -5,6 +5,9 @@ import os
 import logging
 from obra_dinn import convert_to_binary
 from dithering_one_bit import convert_image
+
+from jinja2 import Environment, FileSystemLoader
+
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 
@@ -64,3 +67,16 @@ def compress_images(directory_path):
 
 # Example usage:
 # compress_images_in_directory('/path/to/images')
+
+
+def generate_thumbnails(image_dir: Path, thumbnail_dir: Path, size=(200, 200)):
+    """Generates thumbnails for all images in the directory."""
+    thumbnail_dir.mkdir(parents=True, exist_ok=True)
+
+    # Iterate through all images in the directory
+    for img_path in image_dir.iterdir():
+        if img_path.suffix.lower() in ['.jpg', '.jpeg', '.png', '.gif']:
+            img = Image.open(img_path)
+            img.thumbnail(size)
+            thumbnail_path = thumbnail_dir / img_path.name
+            img.save(thumbnail_path)

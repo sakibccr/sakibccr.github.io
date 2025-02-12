@@ -1,13 +1,11 @@
 import shutil, re, datetime, markdown
 from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
-from image_compressor import compress_images
+from utils import compress_images, generate_thumbnails
 from rich import print
-import ipdb
 
 class SiteGenerator:
-    def __init__(self, publish_dir='_site',
-                 static_dir='static', layout_dir='layout'):
+    def __init__(self, publish_dir, static_dir, layout_dir):
         self.publish_dir = Path(publish_dir)
         self.static_dir = Path(static_dir)
         self.layout_dir = Path(layout_dir)
@@ -62,6 +60,10 @@ class SiteGenerator:
         directory = filepath.parent.stem
         date = content['date'].strftime('%Y-%m-%d')  # read this from a config
         slug = content['slug']
+
+        if content.get('fixed_page', 'no') in ['true', 'yes', '1']:
+            return Path(f'{slug}/index.html')
+
         return Path(pattern.format(directory=directory, date=date, slug=slug))
 
     def generate_pages(self, src_pattern, layout):
@@ -75,7 +77,8 @@ class SiteGenerator:
                 dest = self.compute_dest('{directory}/{date}-{slug}/index.html', filepath, content)
                 content['url'] = dest.parent
                 self.fwrite(dest, output)
-                items.append(content)
+                if content.get('fixed_page', 'no').lower() not in ['true', 'yes', '1']:
+                    items.append(content)
             else:
                 print(f'Skipping {filepath}')
 
@@ -84,6 +87,39 @@ class SiteGenerator:
     def generate_list_page(self, posts, dest, list_layout):
         content = self.template_env.get_template(list_layout).render(**self.params, posts=posts)
         self.fwrite(dest, content)
+
+    def generate_custom_404(self, dest, layout):
+        custom_404_content = {
+            'title': '404 - Page Not Found',
+            'content': 'The page you are looking for does not exist.',
+            'fixed_page': 'yes'
+        }
+        custom_404_content.update(self.params)
+        output = self.template_env.get_template(layout).render(**custom_404_content)
+        self.fwrite(dest, output)
+    
+    def generate_gallery(self, src_dir, dest_dir, layout):
+        src_dir = self.base_dir / src_dir
+        dest_dir = self.publish_dir / dest_dir
+        images_dir = dest_dir / 'images'
+        images_dir.mkdir(parents=True, exist_ok=True)
+        # copy images from src_dir to images_dir
+        for img in src_dir.iterdir():
+            if img.suffix.lower() in ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp']:
+                shutil.copy(img, images_dir)
+
+        thumbnails_dir = dest_dir / 'thumbnails'
+        thumbnails_dir.mkdir(parents=True, exist_ok=True)
+        generate_thumbnails(images_dir, dest_dir / 'thumbnails')
+
+        images = [img.name for img in images_dir.iterdir() if img.suffix.lower() in ['.jpg', '.jpeg', '.png', '.gif']]
+
+        output = self.template_env.get_template(layout).render(images=images, thumbnail_dir=thumbnails_dir)
+
+        self.fwrite('gallery/index.html', output)
+
+        print('Gallery generated at', dest_dir)
+
 
     def build(self):
         self.setup()
@@ -94,6 +130,17 @@ class SiteGenerator:
         # index page
         self.generate_list_page(blog_posts, 'index.html', 'home.html')
 
+        # custom 404 page
+        self.generate_custom_404('404.html', 'post.html')
+
+        # generate gallery
+        self.generate_gallery('gallery', 'gallery', 'gallery.html')
+
 if __name__ == '__main__':
-    SiteGenerator().build()
+    publish_dir='_site'
+    static_dir='static'
+    layout_dir='layout'
+    SiteGenerator(publish_dir=publish_dir,
+                 static_dir=static_dir,
+                 layout_dir=layout_dir).build()
     compress_images('_site/static/assets/images')

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Gallery</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+        }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        .thumbnail {
+            width: 100%;
+            cursor: pointer;
+            transition: transform 0.3s;
+            border: 20px solid #fff;
+        }
+        .thumbnail:hover {
+            transform: scale(1.05);
+        }
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            align-items: center;
+            justify-content: center;
+        }
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+        }
+        .lightbox.active {
+            display: flex;
+        }
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 36px;
+            color: #fff;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="gallery">
+        {% for image in images %}
+            <div class="item">
+                <img src="/gallery/thumbnails/{{ image }}" class="thumbnail" data-full="/gallery/images/{{ image }}" alt="Image">
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="lightbox" id="lightbox">
+        <span class="close" id="closeBtn">&times;</span>
+        <img id="lightboxImage" src="" alt="Full Image">
+    </div>
+
+    <script>
+        const thumbnails = document.querySelectorAll('.thumbnail');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImage = document.getElementById('lightboxImage');
+        const closeBtn = document.getElementById('closeBtn');
+
+        thumbnails.forEach(thumb => {
+            thumb.addEventListener('click', function() {
+                const fullImg = thumb.getAttribute('data-full');
+                lightboxImage.src = fullImg;
+                lightbox.classList.add('active');
+            });
+        });
+
+        closeBtn.addEventListener('click', function() {
+            lightbox.classList.remove('active');
+        });
+
+        // Close lightbox when clicking outside of the image
+        lightbox.addEventListener('click', function(event) {
+            if (event.target === lightbox) {
+                lightbox.classList.remove('active');
+            }
+        });
+    </script>
+
+</body>
+</html>
