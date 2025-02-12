@@ -98,27 +98,38 @@ class SiteGenerator:
         output = self.template_env.get_template(layout).render(**custom_404_content)
         self.fwrite(dest, output)
     
-    def generate_gallery(self, src_dir, dest_dir, layout):
-        src_dir = self.base_dir / src_dir
-        dest_dir = self.publish_dir / dest_dir
-        images_dir = dest_dir / 'images'
+    def generate_gallery(self, name, layout):
+        src_dir = self.base_dir / name
+
+        images_dir = self.publish_dir / name / 'images'
         images_dir.mkdir(parents=True, exist_ok=True)
         # copy images from src_dir to images_dir
         for img in src_dir.iterdir():
             if img.suffix.lower() in ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp']:
                 shutil.copy(img, images_dir)
 
-        thumbnails_dir = dest_dir / 'thumbnails'
+        thumbnails_dir = self.publish_dir / name / 'thumbnails'
         thumbnails_dir.mkdir(parents=True, exist_ok=True)
-        generate_thumbnails(images_dir, dest_dir / 'thumbnails')
+        generate_thumbnails(images_dir, thumbnails_dir)
 
         images = [img.name for img in images_dir.iterdir() if img.suffix.lower() in ['.jpg', '.jpeg', '.png', '.gif']]
 
-        output = self.template_env.get_template(layout).render(images=images, thumbnail_dir=thumbnails_dir)
+        self.params.update()
 
-        self.fwrite('gallery/index.html', output)
+        gallery_content = {
+            'images': images,
+            'thumbnail_dir': thumbnails_dir,
+            'name': name,
+            'count': len(images)
+        }
 
-        print('Gallery generated at', dest_dir)
+        gallery_content.update(self.params)
+
+        output = self.template_env.get_template(layout).render(gallery_content)
+
+        self.fwrite(f'{name}/index.html', output)
+
+        print('Gallery generated at', name)
 
 
     def build(self):
@@ -134,7 +145,7 @@ class SiteGenerator:
         self.generate_custom_404('404.html', 'post.html')
 
         # generate gallery
-        self.generate_gallery('gallery', 'gallery', 'gallery.html')
+        self.generate_gallery('photos', 'gallery.html')
 
 if __name__ == '__main__':
     publish_dir='_site'
@@ -144,3 +155,4 @@ if __name__ == '__main__':
                  static_dir=static_dir,
                  layout_dir=layout_dir).build()
     compress_images('_site/static/assets/images')
+    compress_images('_site/photos/images')
