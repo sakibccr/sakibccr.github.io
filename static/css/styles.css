@@ -11,7 +11,8 @@ html {
     padding: 0;
     background: var(--bg);
     color: var(--fg);
-    font-family: serif;
+    
+    font-family: "PT Serif", serif;
 
     font-optical-sizing: auto;
     font-weight: 400;
@@ -42,7 +43,8 @@ section {
 
 a {
     color: var(--theme);
-    text-decoration: none;
+    text-decoration-style: dotted;
+    text-decoration-color: var(--muted);
 }
 
 a:hover {
