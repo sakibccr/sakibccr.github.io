@@ -161,6 +161,10 @@ footer p {
     transform: scale(-1, 1);
 }
 
+.roundphoto {
+    border-radius: 50%;
+}
+
 /* Photo grid styling */
 .photo-grid {
 list-style-type: none;
