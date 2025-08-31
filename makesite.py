@@ -1,7 +1,6 @@
 import shutil, re, datetime, markdown
 from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
-from utils import compress_images, generate_thumbnails
 from rich import print
 
 class SiteGenerator:
@@ -28,7 +27,6 @@ class SiteGenerator:
         shutil.copytree(self.static_dir, self.publish_dir / self.static_dir)
 
     def fread(self, filename):
-        print(f'Reading {filename}')
         text = Path(filename).read_text(encoding='utf-8')
         date_slug = Path(filename).stem
         match = re.match(r'^(?:(\d{4}-\d{2}-\d{2})-)?(.+)$', date_slug)
@@ -97,40 +95,6 @@ class SiteGenerator:
         custom_404_content.update(self.params)
         output = self.template_env.get_template(layout).render(**custom_404_content)
         self.fwrite(dest, output)
-    
-    def generate_gallery(self, name, layout):
-        src_dir = self.base_dir / name
-
-        images_dir = self.publish_dir / name / 'images'
-        images_dir.mkdir(parents=True, exist_ok=True)
-        # copy images from src_dir to images_dir
-        for img in src_dir.iterdir():
-            if img.suffix.lower() in ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp']:
-                shutil.copy(img, images_dir)
-
-        thumbnails_dir = self.publish_dir / name / 'thumbnails'
-        thumbnails_dir.mkdir(parents=True, exist_ok=True)
-        generate_thumbnails(images_dir, thumbnails_dir)
-
-        images = [img.name for img in images_dir.iterdir() if img.suffix.lower() in ['.jpg', '.jpeg', '.png', '.gif']]
-
-        self.params.update()
-
-        gallery_content = {
-            'images': images,
-            'thumbnail_dir': thumbnails_dir,
-            'name': name,
-            'count': len(images)
-        }
-
-        gallery_content.update(self.params)
-
-        output = self.template_env.get_template(layout).render(gallery_content)
-
-        self.fwrite(f'{name}/index.html', output)
-
-        print('Gallery generated at', name)
-
 
     def build(self):
         self.setup()
@@ -139,13 +103,14 @@ class SiteGenerator:
         blog_posts = self.generate_pages('*.md', 'post.html')
 
         # index page
-        self.generate_list_page(blog_posts, 'index.html', 'home.html')
+        self.generate_list_page(blog_posts[:10], 'index.html', 'home.html')
+
+        # archive page
+        self.generate_list_page(blog_posts, 'archive/index.html', 'list.html')
 
         # custom 404 page
         self.generate_custom_404('404.html', 'post.html')
 
-        # generate gallery
-        self.generate_gallery('photos', 'gallery.html')
 
 if __name__ == '__main__':
     publish_dir='_site'
@@ -154,5 +119,3 @@ if __name__ == '__main__':
     SiteGenerator(publish_dir=publish_dir,
                  static_dir=static_dir,
                  layout_dir=layout_dir).build()
-    compress_images('_site/static/assets/images')
-    compress_images('_site/photos/images')

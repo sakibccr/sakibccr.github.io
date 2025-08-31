@@ -1,7 +1,0 @@
-1. Add support for generating empty post with front matter and current filename so that I don't have to write it every time I post an article
-(done) 2. Add image support
-3. Test in other platforms. Test with large number of posts
-5. Add support for categories. Currently, all the posts are published under one single collection.
-7. Add unoffice hours, webring
-8. Incorporate vale.sh
-9. Add pagination
