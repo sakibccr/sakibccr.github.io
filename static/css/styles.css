@@ -1,8 +1,8 @@
 :root {
-    --bg: #fff;
-    --fg: #4f4f4f;
-    --theme: #00f;
-    --muted: #8d8d8d;
+    --bg: #38000A;
+    --fg: #CD1C18;
+    --theme: #ED2100;
+    --muted: #9B1313;
 }
 
 body,
@@ -11,8 +11,8 @@ html {
     padding: 0;
     background: var(--bg);
     color: var(--fg);
-    
-    font-family: "PT Serif", serif;
+
+    font-family: "Noto Sans Mono", monospace;
 
     font-optical-sizing: auto;
     font-weight: 400;
@@ -145,7 +145,8 @@ footer p {
 }
 
 .smol {
-    font-size: calc(1rem + .1vw);
+    font-size: calc(0.8rem + .1vw);
+    font-weight: 200;
 }
 
 .muted {
