@@ -1,3 +1,3 @@
-This is a small Python script to build my website from markdown files. Originally, it was a fork of Sunaina Pai's awesome [makesite.py](https://github.com/sunainapai/makesite). Now the script has deviated so much that it can be called entirely different from that.
+This is my website. I use a small Python script to generate the posts from markdown files. The inspiration for this came from Sunaina Pai's awesome [makesite.py](https://github.com/sunainapai/makesite).
 
 The website can be viewed [here](https://reveille.xyz/).

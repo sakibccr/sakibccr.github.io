@@ -3,8 +3,7 @@ import hitherdither
 from pathlib import Path
 import os
 import logging
-from obra_dinn import convert_to_binary
-from dithering_one_bit import convert_image
+
 
 from jinja2 import Environment, FileSystemLoader
 
@@ -51,23 +50,6 @@ def process_image(image_path):
 
     except Exception as e:
         logging.error(f"Error processing {image_path}: {e}")
-
-def compress_images(directory_path):
-    """Iterate over images in a directory and compress them."""
-    image_extensions = {'.jpg', '.jpeg', '.png'}  # Add common extensions
-    directory = Path(directory_path)
-
-    # Iterate through all image files in the directory recursively
-    for image_path in directory.rglob('*'):
-        if image_path.suffix.lower() in image_extensions:
-            # process_image(image_path)
-            convert_to_binary(image_path)
-            # 'bayer', 'halftone', 'contrast', 'pixelated'
-            # convert_image(image_path, style="bayer")
-
-# Example usage:
-# compress_images_in_directory('/path/to/images')
-
 
 def generate_thumbnails(image_dir: Path, thumbnail_dir: Path, size=(200, 200)):
     """Generates thumbnails for all images in the directory."""
