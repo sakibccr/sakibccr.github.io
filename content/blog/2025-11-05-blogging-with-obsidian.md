@@ -1,6 +1,6 @@
 <!-- title: Setting up Obsidian for blogging -->
 <!-- date: 2025-11-05 -->
-<!-- draft: yes -->
+<!-- draft: no -->
 
 Obsidian is a powerful tool for notetaking. In this post, I will describe how I set it up for blogging on the go.
 
