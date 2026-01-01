@@ -6,5 +6,4 @@ htmlcov
 venv/
 public/
 _site/
-obsidian_templates/
 .trash
