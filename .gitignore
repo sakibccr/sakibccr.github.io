@@ -1,0 +1,10 @@
+*.pyc
+__pycache__
+htmlcov
+*.sw?
+.DS_Store
+venv/
+public/
+_site/
+obsidian_templates/
+.trash

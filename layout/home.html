@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content -%}
+<section>
+<p>In one of my several lives, I am supposed to be a writer. In this silly blog, I am trying to learn that.</p>
+</section>
+
+<section>
+<h2>Writings</h2>
+{% include "partials/list.html" %}
+</section>
+
+<section>
+<h2>Projects</h2>
+<ul>
+<li><a href="https://github.com/sakibccr/jrnl2web" target="_blank">jrnl2web</a> &mdash; A tool to turn your <a href="https://jrnl.sh/en/stable/"><code>jrnl.sh</code></a> entries into a website.</li>
+<li><a href="https://github.com/sakibccr/clank" target="_blank">Clank</a> &mdash; Command line tool for audio notification.</li>
+</ul>
+</section>
+
+<section>
+<h2>Elsewhere</h2>
+<ul>
+<li><a target="_blank" href="https://github.com/sakibccr">Github</a></li>
+<li><a rel="me" target="_blank" href="https://mastodon.social/@reveille">Mastodon</a></li>
+</ul>
+</section>
+
+<section>
+<h2>Contact</h2>
+<p>I always reply to emails. Say hello: <em>me</em> at <em>reveille</em> dot <em>xyz</em>.</p>
+</section>
+
+<section>
+<h2>Explore</h2>
+<p>
+<a href="/all/">All posts</a> /
+<a href="/about/">About</a> /
+<a href="/colophon/">Colophon</a>
+</p>
+</section>
+
+{%- endblock %}

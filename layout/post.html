@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content -%}
+<article>
+<h1>{{ title }}</h1>
+{% if fixed_page|lower not in ["true", "yes", "1"] %}
+<p><time class="muted italic" datetime="{{ date.strftime('%F') }}">{{ date.strftime('%B %d, %Y') }}</time></p>
+{% endif %}
+{{ content | safe }}
+</article>
+{%- endblock %}

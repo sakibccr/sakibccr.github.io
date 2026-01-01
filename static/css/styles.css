@@ -1,0 +1,180 @@
+:root {
+    --bg: #150004;
+    --fg: #CD1C18;
+    --theme: #ED2100;
+    --muted: #9B1313;
+    --border-color: var(--muted); 
+    --code-bg: color-mix(in srgb, var(--bg) 90%, var(--fg) 5%);
+}
+
+html {
+    /* Responsive Font Size: min(1rem), preferred(1rem + .1vw), max(1.1rem) */
+    font-size: clamp(1rem, calc(1rem + 0.2vw), 2rem);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--fg);
+
+    font-family: "Noto Sans Mono", monospace;
+    font-optical-sizing: auto;
+    font-weight: normal;
+    font-style: normal;
+
+    line-height: 1.4;
+    overflow-wrap: break-word;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    max-width: 60ch;
+    margin: 0 auto;
+}
+
+nav,
+main,
+footer {
+    padding: 20px 10px;
+}
+
+section {
+    margin-block-end: 40px;
+}
+
+a {
+    color: var(--theme);
+    text-decoration: underline dotted var(--muted);
+    text-underline-offset: 2px;
+    transition: text-decoration-style 0.2s, text-decoration-color 0.2s;
+}
+
+a:hover {
+    text-decoration-style: solid;
+    text-decoration-color: var(--theme);
+}
+
+nav {
+    border-block-end: 1px solid var(--border-color);
+}
+
+h1,
+h2,
+h3,
+nav a {
+    font-weight: bold;
+    line-height: 1.1;
+    letter-spacing: -1px;
+}
+
+h1 {
+    font-size: 1.4rem;
+    margin: 0 0 .5rem 0;
+}
+
+h2 {
+    font-size: 1.2rem;
+    margin: 0 0 .5rem 0;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+td {
+    vertical-align: top;
+}
+
+td:first-child {
+    white-space: nowrap;
+}
+
+td:last-child {
+    padding-inline-start: 1em; 
+}
+
+ul {
+    list-style-type: circle;
+    list-style-position: inside;
+    padding: 0;
+}
+
+li {
+    transition: color 0.2s;
+}
+
+li:hover {
+    color: var(--theme);
+    list-style-type: disc;  /* Remove to prevent layout shift */
+}
+
+blockquote {
+    padding-inline-start: 1em;
+    margin-inline-start: 0;
+    border-inline-start: 2px solid var(--muted);
+    font-style: italic;
+}
+
+figure {
+    margin: 0;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    margin: 1em 0;
+}
+
+p img {
+    max-width: 27%;
+    float: right;
+    margin: 0px 0px 15px 20px;
+}
+
+code {
+    padding: 2px 5px;
+    font-size: 0.9em;
+    background-color: var(--code-bg);
+    border-radius: 3px;
+    color: var(--fg);
+}
+
+footer {
+    margin-top: auto;
+    padding-bottom: 0;
+}
+
+footer p {
+    margin-block-end: 5px;
+}
+
+/* Utility Classes */
+
+.right {
+    text-align: right;
+}
+
+.smol {
+    font-size: clamp(0.7rem, calc(0.7rem + .1vw), 0.9rem);
+    font-weight: 200;
+}
+
+.muted {
+    color: var(--muted);
+}
+
+.italic {
+    font-style: italic;
+}
+
+.copyleft {
+    display: inline-block;
+    transform: scale(-1, 1);
+}
+
+.roundphoto {
+    border-radius: 50%;
+}

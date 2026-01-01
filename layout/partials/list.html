@@ -1,0 +1,8 @@
+<table>
+{% for post in posts -%}
+<tr>
+<td><time class="muted" datetime="{{ post.date.strftime('%F') }}">{{ post.date.strftime('%d-%b-%y') }}</time></td>
+<td><a href="{{ post.url }}">{{ post.title }}</a></td>
+</tr>
+{%- endfor %}
+</table>

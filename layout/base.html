@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>
+            {% if title is defined %} » {{ title }} &mdash; {{ tld }} {% else %}
+            ⁘ {{ tld }} &mdash; Home {% endif %}
+        </title>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&display=swap" as="style">
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&display=swap" rel="stylesheet">
+
+        <link rel="stylesheet" href="/{{static_dir}}/css/styles.css" />
+
+        <meta name="description" content="Personal blog of Sakib Hasan, covering various topics." />
+        <meta name="keywords" content="blog, personal website, reveille, tech, musings, python, programming, linux, stories" />
+        <meta name="author" content="Sakib Hasan" />
+        <link rel="canonical" href="{{ canonical_url | default('https://reveille.xyz') }}" />
+
+        <meta property="og:title" content="{% if title is defined %}{{ title }}{% else %}Home{% endif %} &mdash; {{ tld }}" />
+        <meta property="og:description" content="Personal blog of Sakib Hasan, covering various topics." />
+        <meta property="og:url" content="{{ canonical_url | default('https://reveille.xyz') }}" />
+        <meta property="og:type" content="website" />
+
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:creator" content="@reveille" />
+        <meta name="fediverse:creator" content="@reveille@mastodon.social">
+    </head>
+    <body>
+        <nav class="right">
+            <a href="/">{{ tld }}</a>
+        </nav>
+
+        <main>{% block content -%}{%- endblock %}</main>
+
+        {% block footer -%}
+        <footer>
+            <p class="muted smol">
+                <span class="copyleft">&copy;</span> No rights reserved. Current
+                year is {{ now.strftime('%Y') }} (whatever that means).
+            </p>
+        </footer>
+        {%- endblock %}
+
+    </body>
+</html>

@@ -1,0 +1,131 @@
+{
+  "main": {
+    "id": "b0b814610bc7f0d4",
+    "type": "split",
+    "children": [
+      {
+        "id": "b21789d09cc44ce2",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "e70d8e05a22abae5",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "obsidian_templates/NewPost.md",
+                "mode": "source",
+                "source": false,
+                "backlinks": false
+              },
+              "icon": "lucide-file",
+              "title": "NewPost"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "285069b9e0370383",
+    "type": "split",
+    "children": [
+      {
+        "id": "8a37106eb11101ed",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "92d252efc4db722a",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "6202b64077f518f4",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "5f497779dff979a6",
+    "type": "split",
+    "children": [
+      {
+        "id": "5864484696276639",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "f6bc8d131d2ddaea",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {},
+              "icon": "git-pull-request",
+              "title": "Source Control"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "obsidian-git:Open Git source control": false
+    }
+  },
+  "active": "e70d8e05a22abae5",
+  "lastOpenFiles": [
+    "_site/404.html",
+    "_site/all/index.html",
+    "_site/all",
+    "_site/index.html",
+    "layout/all.html",
+    "layout/partials/list.html",
+    "layout/partials",
+    "_site/archive/index.html",
+    "_site/archive",
+    "_site/blog/2024-09-22-rest-in-peace-tufan/index.html",
+    "_site/blog/2024-09-22-rest-in-peace-tufan",
+    "_site/static/assets/images/tufan.jpeg",
+    "_site/static/assets/images/sakib.jpg",
+    "content/blog/Goodbye Tufan.md",
+    "content/blog/goodbye-tufan.md",
+    "content/blog/2025-11-05-blogging-with-obsidian.md",
+    "content/blog/2025-08-26-surviving-life.md",
+    "content/blog/2024-09-22-goodbye-tufan.md",
+    "content/blog/2026-01-01-test.md",
+    "content/blog/Untitled.md",
+    "obsidian_templates/NewPost.md",
+    "obsidian_templates/New Blog.md"
+  ]
+}
