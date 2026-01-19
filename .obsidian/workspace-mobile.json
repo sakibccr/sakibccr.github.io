@@ -4,17 +4,22 @@
     "type": "split",
     "children": [
       {
-        "id": "e004e531781ff711",
+        "id": "66d3ae7b300eddf1",
         "type": "tabs",
         "children": [
           {
-            "id": "87c80b51bcbe8129",
+            "id": "6be6d4d24d59d5d8",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "content/blog/Shape of meaning.md",
+                "mode": "source",
+                "source": false,
+                "backlinks": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "Shape of meaning"
             }
           }
         ]
@@ -94,7 +99,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "fd531c90ea10b121",
+  "active": "6be6d4d24d59d5d8",
   "lastOpenFiles": [
     "content/blog/Shape of meaning.md",
     "content/blog/Happy New Year 2026.md",

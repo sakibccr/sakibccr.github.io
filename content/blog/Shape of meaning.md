@@ -1,7 +1,7 @@
 <!-- title:  Shape of meaning -->
 <!-- date: 2026-01-19 -->
 <!-- time: 17:13 -->
-<!-- draft: yes -->
+<!-- draft: no -->
 
 Recently, I came across an introspective question:
 
