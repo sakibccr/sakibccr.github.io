@@ -1,3 +1,8 @@
+<!-- title:  An incomplete list of my favorite movies-->
+<!-- date: 2026-02-13 -->
+<!-- time: 01:53 -->
+<!-- draft: no -->
+
 I like to think myself as a movie buff. Long time ago, there was a low time in my life. At that time, movies were my only escape.
 
 Now I have a family, a demanding job so I don't find the time to enjoy movies like before. But I still myself find thinking about them. I loved being immersed into the movie world. It was like meditation for me.
