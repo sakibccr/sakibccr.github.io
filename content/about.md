@@ -1,7 +1,9 @@
-<!-- title: About -->
-<!-- render: yes -->
-<!-- fixed_page: yes -->
-<!-- draft: no -->
+---
+title: About
+slug: about
+fixed_page: true
+draft: false
+---
 
 <img class="roundphoto" src="/static/assets/images/sakib.jpg">
 

@@ -1,38 +1,47 @@
 :root {
-    --bg: #150004;
-    --fg: #CD1C18;
-    --theme: #ED2100;
-    --muted: #9B1313;
-    --border-color: var(--muted); 
-    --code-bg: color-mix(in srgb, var(--bg) 90%, var(--fg) 5%);
+    color-scheme: light;
+    --bg: #f4efe5;
+    --fg: #292922;
+    --theme: #254cbe;
+    --accent: #bc3b25;
+    --muted: #6d6a60;
+    --border-color: #c8bfaf;
+    --code-bg: #eae3d6;
+    --serif: "Newsreader", Georgia, "Times New Roman", serif;
+    --display: "Fraunces", Georgia, serif;
+    --mono: "IBM Plex Mono", "Courier New", monospace;
+}
+
+* {
+    box-sizing: border-box;
 }
 
 html {
-    /* Responsive Font Size: min(1rem), preferred(1rem + .1vw), max(1.1rem) */
-    font-size: clamp(1rem, calc(1rem + 0.2vw), 2rem);
-}
-
-body {
-    margin: 0;
-    padding: 0;
+    font-size: clamp(16px, calc(15px + 0.25vw), 19px);
     background: var(--bg);
-    color: var(--fg);
-
-    font-family: "Noto Sans Mono", monospace;
-    font-optical-sizing: auto;
-    font-weight: normal;
-    font-style: normal;
-
-    line-height: 1.4;
-    overflow-wrap: break-word;
 }
 
 body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    max-width: 60ch;
+    min-height: 100svh;
+    max-width: 38rem;
     margin: 0 auto;
+    padding: 0;
+    color: var(--fg);
+    background: var(--bg);
+    font-family: var(--serif);
+    font-size: 1.12rem;
+    font-optical-sizing: auto;
+    line-height: 1.65;
+    overflow-wrap: break-word;
+    -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+    color: #fffaf0;
+    background: var(--accent);
 }
 
 nav,
@@ -41,43 +50,103 @@ footer {
     padding: 20px 10px;
 }
 
+nav {
+    border-block-end: 1px solid var(--fg);
+    position: relative;
+}
+
+nav::after {
+    content: "";
+    position: absolute;
+    bottom: -3px;
+    right: 10px;
+    width: 32px;
+    height: 5px;
+    background: var(--accent);
+}
+
+nav a {
+    color: var(--fg);
+    font-family: var(--display);
+    font-size: 2.15rem;
+    font-weight: 650;
+    font-style: italic;
+    letter-spacing: -0.075em;
+    line-height: 1.1;
+    text-decoration: none;
+}
+
+nav a:hover {
+    color: var(--accent);
+}
+
 section {
     margin-block-end: 40px;
 }
 
 a {
     color: var(--theme);
-    text-decoration: underline dotted var(--muted);
-    text-underline-offset: 2px;
-    transition: text-decoration-style 0.2s, text-decoration-color 0.2s;
+    text-decoration-line: underline;
+    text-decoration-color: #9baace;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.18em;
+    transition: color 160ms ease, text-decoration-color 160ms ease;
 }
 
 a:hover {
-    text-decoration-style: solid;
-    text-decoration-color: var(--theme);
+    color: var(--accent);
+    text-decoration-color: var(--accent);
 }
 
-nav {
-    border-block-end: 1px solid var(--border-color);
+a:focus-visible {
+    outline: 2px solid var(--theme);
+    outline-offset: 4px;
+    border-radius: 1px;
 }
 
 h1,
 h2,
-h3,
-nav a {
-    font-weight: bold;
-    line-height: 1.1;
-    letter-spacing: -1px;
+h3 {
+    font-family: var(--display);
+    font-weight: 550;
+    line-height: 1.15;
+    text-wrap: balance;
 }
 
 h1 {
-    font-size: 1.4rem;
-    margin: 0 0 .5rem 0;
+    font-size: clamp(2rem, 6vw, 3rem);
+    letter-spacing: -0.055em;
+    margin: 0 0 0.5rem;
 }
 
 h2 {
+    color: var(--accent);
+    font-size: 1.4rem;
+    font-style: italic;
+    letter-spacing: -0.035em;
+    margin: 0 0 0.5rem;
+}
+
+h3 {
     font-size: 1.2rem;
-    margin: 0 0 .5rem 0;
+    letter-spacing: -0.025em;
+}
+
+p {
+    margin-block: 1em;
+}
+
+time {
+    font-family: var(--mono);
+    font-size: 0.68em;
+    font-style: normal;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.035em;
+    color: var(--muted);
+}
+
+article > p:has(> time) {
+    margin-block: 0.7rem 1.8rem;
 }
 
 table {
@@ -85,7 +154,8 @@ table {
 }
 
 td {
-    vertical-align: top;
+    vertical-align: baseline;
+    padding-block: 0.3rem;
 }
 
 td:first-child {
@@ -93,7 +163,7 @@ td:first-child {
 }
 
 td:last-child {
-    padding-inline-start: 1em; 
+    padding-inline-start: 1em;
 }
 
 ul {
@@ -102,20 +172,17 @@ ul {
     padding: 0;
 }
 
-li {
-    transition: color 0.2s;
-}
-
-li:hover {
-    color: var(--theme);
-    list-style-type: disc;  /* Remove to prevent layout shift */
+li::marker {
+    color: var(--accent);
 }
 
 blockquote {
-    padding-inline-start: 1em;
-    margin-inline-start: 0;
-    border-inline-start: 2px solid var(--muted);
+    margin-inline: 0;
+    padding-inline-start: 1.1em;
+    border-inline-start: 2px solid var(--accent);
+    font-size: 1.12em;
     font-style: italic;
+    color: #555442;
 }
 
 figure {
@@ -128,38 +195,62 @@ img {
     margin: 1em 0;
 }
 
-p img {
+p img.roundphoto {
     max-width: 27%;
     float: right;
-    margin: 0px 0px 15px 20px;
+    margin: 0 0 15px 20px;
 }
 
 code {
-    padding: 2px 5px;
-    font-size: 0.9em;
-    background-color: var(--code-bg);
-    border-radius: 3px;
-    color: var(--fg);
+    padding: 0.15em 0.3em;
+    font-family: var(--mono);
+    font-size: 0.72em;
+    background: var(--code-bg);
+    border-radius: 2px;
+}
+
+pre {
+    overflow-x: auto;
+    padding: 1rem;
+    background: var(--code-bg);
+    border-inline-start: 2px solid var(--border-color);
+    line-height: 1.5;
+}
+
+pre code {
+    padding: 0;
+}
+
+hr {
+    border: 0;
+    border-block-start: 1px solid var(--border-color);
+    margin-block: 2rem;
 }
 
 footer {
     margin-top: auto;
     padding-bottom: 0;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    line-height: 1.7;
 }
 
 footer p {
     margin-block-end: 5px;
 }
 
-/* Utility Classes */
+footer > p:first-child a {
+    color: var(--accent);
+    text-decoration-color: var(--border-color);
+}
 
 .right {
     text-align: right;
 }
 
 .smol {
-    font-size: clamp(0.7rem, calc(0.7rem + .1vw), 0.9rem);
-    font-weight: 200;
+    font-size: 0.62rem;
+    font-weight: 400;
 }
 
 .muted {
@@ -177,4 +268,26 @@ footer p {
 
 .roundphoto {
     border-radius: 50%;
+}
+
+@media (max-width: 480px) {
+    nav,
+    main,
+    footer {
+        padding-inline: 18px;
+    }
+
+    nav::after {
+        right: 18px;
+    }
+
+    td:last-child {
+        padding-inline-start: 0.7em;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    a {
+        transition: none;
+    }
 }

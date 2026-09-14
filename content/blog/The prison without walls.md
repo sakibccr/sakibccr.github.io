@@ -1,7 +1,10 @@
-<!-- title:  The prison without walls -->
-<!-- date: 2026-01-19 -->
-<!-- time: 17:13 -->
-<!-- draft: no -->
+---
+title: The prison without walls
+slug: the-prison-without-walls
+date: 2026-01-19
+time: "17:13"
+draft: false
+---
 
 Recently, I came across an introspective question:
 

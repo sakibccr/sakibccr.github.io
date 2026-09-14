@@ -7,3 +7,7 @@ venv/
 public/
 _site/
 .trash
+.venv/
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/plugins/*/data.json
