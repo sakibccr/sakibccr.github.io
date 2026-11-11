@@ -126,7 +126,12 @@ class Page:
 
 class SiteBuilder:
     def __init__(
-        self, content_dir: str, publish_dir: str, static_dir: str, layout_dir: str
+        self,
+        content_dir: str,
+        publish_dir: str,
+        static_dir: str,
+        layout_dir: str,
+        config_filename: str = "config.toml",
     ):
         self.base_dir = Path(__file__).resolve().parent
         self.content_dir = (self.base_dir / content_dir).resolve()
@@ -134,11 +139,26 @@ class SiteBuilder:
         self.static_dir = (self.base_dir / static_dir).resolve()
         self.layout_dir = (self.base_dir / layout_dir).resolve()
 
+        # Load configuration from TOML file if it exists
+        config_path = self.base_dir / config_filename
+        file_config: dict[str, Any] = {}
+        if config_path.is_file():
+            logger.info("Loading configuration from %s", config_path)
+            with open(config_path, "rb") as f:
+                file_config = tomllib.load(f)
+        else:
+            logger.warning(
+                "Config file not found at %s. Using default settings.", config_path
+            )
+
         self.build_time = dt.datetime.now(dt.UTC)
+
+        # Combine loaded config with dynamic runtime fields
         self.site_config: dict[str, Any] = {
             "tld": "reveille.xyz",
             "author": "Sakib Hasan",
             "site_url": "https://reveille.xyz",
+            **file_config,  # Values from config.toml override defaults above
             "build_time": self.build_time,
             "now": self.build_time,  # Required by base.html footer
             "static_dir": self.static_dir.name,

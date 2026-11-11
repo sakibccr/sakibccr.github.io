@@ -12,7 +12,10 @@
     /* Subsea trench seam */
     --code-bg: #111721;
     /* Midnight deck plate */
-    --font-mono: "Noto Sans Mono", monospace;
+
+    /* Typography: Readable sans for text, mono for terminal personality */
+    --font-sans: "Spectral", serif;
+    --font-mono: "Noto Sans Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 *,
@@ -24,6 +27,7 @@
 html {
     font-size: clamp(17px, 0.35vw + 16px, 20px);
     background: var(--bg);
+    scroll-behavior: smooth;
 }
 
 body {
@@ -32,11 +36,11 @@ body {
     min-height: 100svh;
     max-width: 62ch;
     margin: 0 auto;
-    padding: 0;
+    padding: 0 1rem;
     background: var(--bg);
     color: var(--fg);
-    font-family: var(--font-mono);
-    line-height: 1.65;
+    font-family: var(--font-sans);
+    line-height: 1.7;
     overflow-wrap: break-word;
     -webkit-font-smoothing: antialiased;
 }
@@ -46,97 +50,121 @@ body {
     color: var(--bg);
 }
 
+/* Accessibility Focus States */
+a:focus-visible,
+button:focus-visible {
+    outline: 2px solid var(--theme);
+    outline-offset: 3px;
+    border-radius: 2px;
+}
+
 nav,
 main,
 footer {
-    padding: 1.5rem 1rem;
+    padding: 2rem 0;
 }
 
 nav {
     border-block-end: 1px solid var(--border);
 }
 
+/* Terminal style for site title/nav */
 nav a {
     color: var(--fg);
-    font-size: 1.3rem;
     font-weight: 700;
     text-decoration: none;
-    letter-spacing: -0.04em;
+    letter-spacing: -0.03em;
+    font-style: italic;
 }
 
-nav a:hover,
-a:hover {
+nav a:hover {
     color: var(--theme);
 }
 
 section {
-    margin-block-end: 2.5rem;
+    margin-block-end: 3rem;
 }
 
+/* Links are distinctively interactive */
 a {
     color: var(--theme);
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline dotted var(--theme);
+    text-decoration-line: underline;
+    text-decoration-style: dashed;
+    text-decoration-thickness: 1px;
     text-underline-offset: 3px;
 }
 
+a:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    transition: color 0.15s ease;
+}
+
+/* Headings are crisp structural anchors (White/Fog), NOT link-blue */
 h1,
 h2,
-h3 {
-    color: var(--theme);
-    line-height: 1.2;
+h3,
+h4 {
+    color: #ffffff;
+    line-height: 1.25;
     letter-spacing: -0.03em;
     text-wrap: balance;
+    font-weight: 700;
 }
 
 h1 {
-    font-size: clamp(1.8rem, 4vw, 2.4rem);
-    margin: 0 0 0.5rem;
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    margin: 0 0 0.75rem;
 }
 
 h2 {
-    font-size: 1.35rem;
-    margin: 2rem 0 0.5rem;
+    font-size: 1.4rem;
+    margin: 2.5rem 0 0.75rem;
+    border-block-end: 1px solid var(--border);
+    padding-bottom: 0.3rem;
 }
 
 h3 {
-    font-size: 1.15rem;
-    margin-top: 1.5rem;
+    font-size: 1.2rem;
+    margin-top: 2rem;
 }
 
 p {
-    margin-block: 1.2em;
+    margin-block: 1.25em;
 }
 
+/* Terminal flavor for metadata */
 time {
-    font-size: 0.8em;
     color: var(--muted);
 }
 
 table {
     border-collapse: collapse;
-    margin-block: 1.5rem;
+    margin-block: 2rem;
 }
 
 td {
     vertical-align: baseline;
-    padding-block: 0.35rem;
+    padding-block: 0.5rem;
 }
 
 td:first-child {
     white-space: nowrap;
+    color: var(--muted);
 }
 
 td:last-child {
-    padding-inline-start: 1rem;
+    padding-inline-start: 1.5rem;
 }
 
-ul {
-    list-style: circle inside;
-    padding: 0;
+ul,
+ol {
+    padding-inline-start: 1.5rem;
+    margin-block: 1.25rem;
+}
+
+li {
+    margin-block: 0.35rem;
 }
 
 li::marker {
@@ -148,34 +176,38 @@ li:hover::marker {
 }
 
 blockquote {
-    margin: 1.5rem 0;
-    padding-inline-start: 1rem;
-    border-inline-start: 2px solid var(--muted);
+    margin: 2rem 0;
+    padding-inline-start: 1.25rem;
+    border-inline-start: 2px solid var(--theme);
+    color: var(--muted);
     font-style: italic;
-    color: var(--theme);
 }
 
 code {
-    padding: 0.15em 0.4em;
-    font-size: 0.88em;
+    padding: 0.2em 0.4em;
+    font-family: var(--font-mono);
     background: var(--code-bg);
     border: 1px solid var(--border);
-    border-radius: 3px;
+    border-radius: 4px;
+    color: var(--theme);
 }
 
 pre {
     overflow-x: auto;
-    padding: 1rem;
+    padding: 1.25rem;
     background: var(--code-bg);
     border: 1px solid var(--border);
     border-inline-start: 2px solid var(--theme);
-    line-height: 1.45;
+    border-radius: 6px;
+    line-height: 1.5;
+    margin-block: 2rem;
 }
 
 pre code {
     padding: 0;
     border: none;
     background: transparent;
+    color: var(--fg);
 }
 
 figure {
@@ -185,7 +217,8 @@ figure {
 img {
     max-width: 100%;
     height: auto;
-    margin: 1rem 0;
+    border-radius: 6px;
+    margin: 1.5rem 0;
 }
 
 p img.roundphoto {
@@ -196,12 +229,17 @@ p img.roundphoto {
 
 footer {
     margin-top: auto;
-    font-size: 0.8rem;
+    color: var(--muted);
     border-block-start: 1px solid var(--border);
+    padding: 2rem 0;
 }
 
 footer p {
     margin-block-end: 0.4rem;
+}
+
+.center {
+    text-align: center;
 }
 
 /* Utilities */
@@ -210,7 +248,7 @@ footer p {
 }
 
 .smol {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
 }
 
 .muted {
@@ -231,6 +269,10 @@ footer p {
 }
 
 @media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
     a {
         transition: none;
     }

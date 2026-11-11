@@ -1,0 +1,9 @@
+tld = "reveille.xyz"
+author = "Sakib Hasan"
+site_url = "https://reveille.xyz"
+
+# Custom variables you can freely add:
+description = "My personal digital garden and blog."
+twitter_handle = "@sakib_hasan"
+github_url = "https://github.com/sakib"
+posts_per_page = 10
