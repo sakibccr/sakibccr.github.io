@@ -1,241 +1,238 @@
-"""Build an Obsidian-authored blog. Only explicitly published notes are emitted."""
+from __future__ import annotations
 
 import datetime as dt
+import email.utils
 import logging
 import re
 import shutil
-from email.utils import format_datetime
+import tomllib
+from dataclasses import dataclass, field
 from pathlib import Path
-from urllib.parse import quote, unquote, urlsplit
-from xml.etree import ElementTree as ET
-from zoneinfo import ZoneInfo
+from typing import Any
 
 import markdown
-import yaml
 from jinja2 import Environment, FileSystemLoader, select_autoescape
-from markdown.extensions import Extension
-from markdown.extensions.toc import slugify as heading_slugify
-from markdown.inlinepatterns import InlineProcessor
-from markdown.treeprocessors import Treeprocessor
 from slugify import slugify
 
+logger = logging.getLogger(__name__)
 
-def parse_bool(value, default=False):
-    if value is None:
-        return default
-    normalized = str(value).strip().lower()
-    if normalized not in {"true", "yes", "1", "false", "no", "0"}:
-        raise ValueError(f"Expected a boolean, got {value!r}")
-    return normalized in {"true", "yes", "1"}
+FRONTMATTER_RE = re.compile(
+    r"\A\+\+\+[ \t]*\r?\n(.*?)\r?\n\+\+\+[ \t]*(?:\r?\n|\Z)",
+    re.DOTALL,
+)
 
 
-class SiteGenerator:
-    def __init__(self, content_dir, publish_dir, static_dir, layout_dir):
-        self.content_dir = Path(content_dir).resolve()
-        self.base_dir = self.content_dir.parent
-        self.publish_dir = Path(publish_dir).resolve()
-        self.static_dir = Path(static_dir).resolve()
-        self.template_env = Environment(
-            loader=FileSystemLoader(layout_dir), autoescape=select_autoescape(["html"])
+def to_rfc822(val: dt.datetime | None) -> str:
+    """Format datetime according to RFC 822 for RSS feeds."""
+    if not val:
+        return ""
+    if isinstance(val, dt.date) and not isinstance(val, dt.datetime):
+        val = dt.datetime.combine(val, dt.time.min)
+    if val.tzinfo is None:
+        val = val.replace(tzinfo=dt.UTC)
+    return email.utils.format_datetime(val)
+
+
+@dataclass(frozen=True)
+class Page:
+    """Represents a parsed content page or blog post."""
+
+    source: Path
+    title: str
+    slug: str
+    content: str
+    datetime: dt.datetime | None
+    fixed_page: bool = False
+    draft: bool = False
+    metadata: dict[str, Any] = field(default_factory=dict, repr=False)
+
+    @property
+    def destination(self) -> Path:
+        """Calculate relative file destination path."""
+        if self.fixed_page:
+            return Path(self.slug) / "index.html"
+        if not self.datetime:
+            raise ValueError(
+                f"Post {self.source} requires a datetime to compute destination"
+            )
+        return Path(
+            self.source.parent.name,
+            f"{self.datetime.strftime('%Y-%m-%d')}-{self.slug}",
+            "index.html",
         )
-        self.timezone = ZoneInfo("Asia/Dhaka")
-        self.site_params = {
-            "tld": "reveille.xyz", "author": "Sakib Hasan",
-            "site_url": "https://reveille.xyz", "static_dir": self.static_dir.name,
-            "now": dt.datetime.now(self.timezone),
+
+    @property
+    def url(self) -> str:
+        """Calculate canonical relative URL."""
+        return f"/{self.destination.parent.as_posix()}/"
+
+    def __getitem__(self, key: str) -> Any:
+        """Allow backwards-compatible dict-style access in Jinja templates."""
+        if hasattr(self, key):
+            return getattr(self, key)
+        return self.metadata[key]
+
+    def to_context(self) -> dict[str, Any]:
+        """Export page attributes as flat template context."""
+        return {
+            **self.metadata,
+            "title": self.title,
+            "slug": self.slug,
+            "content": self.content,
+            "datetime": self.datetime,
+            "fixed_page": self.fixed_page,
+            "draft": self.draft,
+            "url": self.url,
+            "page": self,
         }
-        self.notes = {}
 
-    def _extract_headers(self, text):
-        lines = text.lstrip("\ufeff").splitlines()
-        if lines and lines[0].strip() == "---":
-            end = next((i for i in range(1, len(lines)) if lines[i].strip() == "---"), None)
-            if end is None:
-                raise ValueError("Unclosed YAML properties block")
-            headers = yaml.safe_load("\n".join(lines[1:end])) or {}
-            if not isinstance(headers, dict):
-                raise ValueError("Properties must be a YAML mapping")
-            return headers, "\n".join(lines[end + 1:])
-        headers = {}
-        consumed = 0
-        for line in lines:
-            match = re.fullmatch(r"\s*<!--\s*([^:]+):\s*(.*?)\s*-->\s*", line)
-            if not match:
-                break
-            headers[match[1].strip()] = match[2]
-            consumed += 1
-        return headers, "\n".join(lines[consumed:])
+    @classmethod
+    def from_file(cls, filepath: Path, md: markdown.Markdown) -> Page:
+        """Parse frontmatter and compile Markdown into a Page instance."""
+        text = filepath.read_text(encoding="utf-8")
+        match = FRONTMATTER_RE.match(text)
+        meta, body = (
+            (tomllib.loads(match.group(1)), text[match.end() :])
+            if match
+            else ({}, text)
+        )
 
-    def fread(self, filepath):
-        try:
-            headers, body = self._extract_headers(filepath.read_text(encoding="utf-8"))
-            draft = parse_bool(headers.get("draft"), default=True)
-            if draft:
-                return {"draft": True, "source": filepath}
-            title = str(headers.get("title") or "").strip()
-            if not title:
-                raise ValueError("Published notes need a nonempty title")
-            slug = str(headers.get("slug") or slugify(filepath.stem)).strip()
-            if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", slug):
-                raise ValueError("Slug must contain lowercase letters, numbers and single hyphens")
-            fixed = parse_bool(headers.get("fixed_page"))
-            published = None
-            if not fixed:
-                date = dt.date.fromisoformat(str(headers["date"]))
-                time = dt.datetime.strptime(str(headers.get("time", "00:00")), "%H:%M").time()
-                published = dt.datetime.combine(date, time, self.timezone)
-            url = f"/{slug}/" if fixed else f"/blog/{slug}/"
-            if url in {"/all/", "/blog/", "/static/"}:
-                raise ValueError(f"Reserved URL: {url}")
-            return {**headers, "title": title, "slug": slug, "draft": False,
-                    "fixed_page": fixed, "published": published,
-                    "date": published.date() if published else None,
-                    "body": body, "source": filepath, "url": url,
-                    "canonical_url": self.site_params["site_url"] + url}
-        except (ValueError, KeyError, yaml.YAMLError) as exc:
-            raise ValueError(f"{filepath}: {exc}") from exc
+        is_page = bool(meta.get("fixed_page", False))
+        is_draft = bool(meta.get("draft", False))
+        parsed_dt = meta.get("datetime")
 
-    def resolve_link(self, value, source, image=False, wiki=False):
-        parsed = urlsplit(value)
-        if parsed.scheme or parsed.netloc:
-            return value
-        if not parsed.path:
-            return "#" + heading_slugify(unquote(parsed.fragment), "-") if wiki and parsed.fragment else value
-        path = unquote(parsed.path)
-        if path.startswith("/") and not image and not path.endswith(".md"):
-            return value
-        candidates = [source.parent / path, self.base_dir / path, self.content_dir / path]
-        if not Path(path).suffix and not image:
-            candidates = [p.with_suffix(".md") for p in candidates]
-        if path.startswith("/"):
-            candidates = [self.base_dir / path.lstrip("/")]
-        target = next((p.resolve() for p in candidates if p.is_file()), None)
-        if target is None and wiki:
-            roots = [self.content_dir, self.static_dir]
-            name = Path(path).name
-            if not Path(path).suffix and not image:
-                name += ".md"
-            matches = [p.resolve() for root in roots for p in root.rglob(name) if p.is_file()]
-            if len(matches) == 1:
-                target = matches[0]
-            elif len(matches) > 1:
-                raise ValueError(f"{source}: ambiguous link {value!r}; use its folder path")
-        if target in self.notes:
-            note = self.notes[target]
-            if image:
-                raise ValueError(f"{source}: note embeds are unsupported; link to {value!r} instead")
-            if note["draft"]:
-                raise ValueError(f"{source}: link to unpublished draft {value!r}")
-            result = note["url"]
-        elif target and target.is_relative_to(self.static_dir):
-            result = "/" + quote(target.relative_to(self.base_dir).as_posix())
-        else:
-            raise ValueError(f"{source}: missing or unsupported local link {value!r}")
-        if parsed.query:
-            result += "?" + parsed.query
-        if parsed.fragment:
-            fragment = unquote(parsed.fragment)
-            result += "#" + quote(heading_slugify(fragment, "-") if wiki else fragment)
-        return result
+        if not is_page and not is_draft and not parsed_dt:
+            raise ValueError(f"Missing required metadata 'datetime' in {filepath}")
 
-    def render_markdown(self, body, source, absolute=False):
-        generator = self
+        # Normalize date-only TOML literals to full datetimes
+        if isinstance(parsed_dt, dt.date) and not isinstance(parsed_dt, dt.datetime):
+            parsed_dt = dt.datetime.combine(parsed_dt, dt.time.min)
 
-        class WikiLinks(InlineProcessor):
-            def handleMatch(self, match, data):
-                embed, target, alias = match.group(1), match.group(2), match.group(3)
-                element = ET.Element("img" if embed else "a")
-                url = generator.resolve_link(target, source, image=bool(embed), wiki=True)
-                element.set("src" if embed else "href", url)
-                if embed:
-                    element.set("alt", alias or Path(target).stem)
-                else:
-                    element.text = alias or target
-                element.set("data-wiki-resolved", "true")
-                return element, match.start(0), match.end(0)
+        md.reset()
+        title = meta.get("title", filepath.stem)
+        slug = slugify(meta.get("slug") or title) or filepath.stem
 
-        class LocalLinks(Treeprocessor):
-            def run(self, root):
-                for element in root.iter():
-                    if element.tag not in {"a", "img"}:
-                        continue
-                    key = "src" if element.tag == "img" else "href"
-                    value = element.get(key, "")
-                    if not element.attrib.pop("data-wiki-resolved", None):
-                        value = generator.resolve_link(value, source, image=element.tag == "img")
-                    if absolute and value.startswith("/"):
-                        value = generator.site_params["site_url"] + value
-                    element.set(key, value)
-                    if element.tag == "img":
-                        element.set("loading", "lazy")
+        return cls(
+            source=filepath,
+            title=title,
+            slug=slug,
+            content=md.convert(body),
+            datetime=parsed_dt,
+            fixed_page=is_page,
+            draft=is_draft,
+            metadata=meta,
+        )
 
-        class ObsidianMarkdown(Extension):
-            def extendMarkdown(self, md):
-                md.inlinePatterns.register(WikiLinks(r"(!?)\[\[([^\]|]+)(?:\|([^\]]+))?\]\]", md), "wikilinks", 175)
-                md.treeprocessors.register(LocalLinks(md), "local_links", 15)
 
-        return markdown.markdown(body, extensions=["fenced_code", "tables", "footnotes", "toc", ObsidianMarkdown()])
+class SiteBuilder:
+    def __init__(
+        self, content_dir: str, publish_dir: str, static_dir: str, layout_dir: str
+    ):
+        self.base_dir = Path(__file__).resolve().parent
+        self.content_dir = (self.base_dir / content_dir).resolve()
+        self.publish_dir = (self.base_dir / publish_dir).resolve()
+        self.static_dir = (self.base_dir / static_dir).resolve()
+        self.layout_dir = (self.base_dir / layout_dir).resolve()
 
-    def fwrite(self, relative_path, content):
-        full_path = self.publish_dir / relative_path
-        full_path.parent.mkdir(parents=True, exist_ok=True)
-        full_path.write_text(content, encoding="utf-8")
+        self.build_time = dt.datetime.now(dt.UTC)
+        self.site_config: dict[str, Any] = {
+            "tld": "reveille.xyz",
+            "author": "Sakib Hasan",
+            "site_url": "https://reveille.xyz",
+            "build_time": self.build_time,
+            "now": self.build_time,  # Required by base.html footer
+            "static_dir": self.static_dir.name,
+        }
 
-    def generate_feed(self, posts):
-        rss = ET.Element("rss", version="2.0")
-        channel = ET.SubElement(rss, "channel")
-        for key, value in {"title": "Reveille — Sakib Hasan", "link": self.site_params["site_url"],
-                           "description": "Personal writings by Sakib Hasan", "language": "en"}.items():
-            ET.SubElement(channel, key).text = value
-        for post in posts[:20]:
-            item = ET.SubElement(channel, "item")
-            for key, value in {"title": post["title"], "link": post["canonical_url"],
-                               "pubDate": format_datetime(post["published"]),
-                               "description": self.render_markdown(post["body"], post["source"], absolute=True)}.items():
-                ET.SubElement(item, key).text = value
-            ET.SubElement(item, "guid", isPermaLink="true").text = post["canonical_url"]
-        return ET.tostring(rss, encoding="unicode", xml_declaration=True)
+        self.env = Environment(
+            loader=FileSystemLoader(self.layout_dir),
+            autoescape=select_autoescape(enabled_extensions=("html", "htm", "xml")),
+        )
+        self.env.filters["rfc822_date"] = to_rfc822
+        self.env.globals.update(self.site_config)
 
-    def build(self):
-        # Validate and render before touching the previous output.
-        for asset in self.static_dir.rglob("*"):
-            if asset.is_file() and asset.suffix.lower() in {".jpg", ".jpeg", ".png", ".webp", ".gif"}:
-                if asset.stat().st_size > 2 * 1024 * 1024:
-                    raise ValueError(f"{asset}: image exceeds 2 MiB; resize/compress before committing (see README)")
-        self.notes = {path: self.fread(path) for path in sorted(self.content_dir.rglob("*.md"))}
-        outputs = {}
-        posts = []
-        for note in self.notes.values():
-            if note["draft"]:
-                continue
-            dest = note["url"].lstrip("/") + "index.html"
-            if dest in outputs:
-                raise ValueError(f"Duplicate URL: {note['url']}")
-            content = self.render_markdown(note["body"], note["source"])
-            outputs[dest] = self.template_env.get_template("post.html").render(
-                **{**self.site_params, **note, "content": content})
-            if not note["fixed_page"]:
-                posts.append(note)
-        posts.sort(key=lambda p: p["published"], reverse=True)
-        for dest, template, items, url in [("index.html", "home.html", posts[:10], "/"),
-                                            ("all/index.html", "all.html", posts, "/all/")]:
-            outputs[dest] = self.template_env.get_template(template).render(
-                **self.site_params, posts=items, canonical_url=self.site_params["site_url"] + url)
-        outputs["404.html"] = self.template_env.get_template("post.html").render(
-            **self.site_params, title="404 — Page not found", fixed_page=True,
-            content="The page you are looking for does not exist.")
-        outputs["feed.xml"] = self.generate_feed(posts)
-        if self.publish_dir != self.base_dir / "_site":
-            raise ValueError("Publish directory must be the project's _site directory")
+        self.md = markdown.Markdown(
+            extensions=["extra", "codehilite", "toc", "sane_lists"]
+        )
+
+    def clean_output_directory(self) -> None:
+        """Prepare publish directory while preventing accidental source deletion."""
+        for path in (self.base_dir, self.content_dir, self.static_dir, self.layout_dir):
+            if self.publish_dir == path or path.is_relative_to(self.publish_dir):
+                raise ValueError(
+                    f"Publish directory cannot enclose source path: {path}"
+                )
+
+        if not self.static_dir.is_dir():
+            raise FileNotFoundError(f"Static directory not found: {self.static_dir}")
+
         if self.publish_dir.exists():
             shutil.rmtree(self.publish_dir)
-        self.publish_dir.mkdir(parents=True)
-        shutil.copytree(self.static_dir, self.publish_dir / self.static_dir.name)
-        for path, content in outputs.items():
-            self.fwrite(path, content)
-        logging.info("Built %d posts and %d output files", len(posts), len(outputs))
+        self.publish_dir.mkdir(parents=True, exist_ok=True)
+        shutil.copytree(
+            self.static_dir, self.publish_dir / self.static_dir.name, dirs_exist_ok=True
+        )
+
+    def render_to_file(
+        self, template_name: str, rel_dest: str | Path, **context: Any
+    ) -> None:
+        """Render a Jinja template and write it to the publication directory."""
+        dest = (self.publish_dir / rel_dest).resolve()
+        if not dest.is_relative_to(self.publish_dir):
+            raise ValueError(f"Path traversal detected: {rel_dest}")
+
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        rendered = self.env.get_template(template_name).render(**context)
+        dest.write_text(rendered, encoding="utf-8")
+        logger.info("Generated %s", dest)
+
+    def build_pages(self) -> list[Page]:
+        """Process all Markdown files, write individual pages, and return published posts."""
+        posts: list[Page] = []
+        seen_destinations: set[Path] = set()
+
+        for filepath in sorted(self.content_dir.rglob("*.md")):
+            logger.info("Processing %s", filepath)
+            page = Page.from_file(filepath, self.md)
+
+            if page.draft:
+                logger.info("Skipping draft: %s", filepath)
+                continue
+
+            dest = page.destination
+            if dest in seen_destinations:
+                raise ValueError(f"Duplicate route detected: {dest}")
+            seen_destinations.add(dest)
+
+            self.render_to_file("post.html", dest, **page.to_context())
+
+            if not page.fixed_page:
+                posts.append(page)
+
+        return sorted(posts, key=lambda p: p.datetime, reverse=True)
+
+    def build(self) -> None:
+        """Run the full site build pipeline."""
+        logger.info("Starting site build")
+        self.clean_output_directory()
+        posts = self.build_pages()
+
+        # Render listings, feed, and error pages
+        self.render_to_file("home.html", "index.html", posts=posts[:10])
+        self.render_to_file("all.html", "all/index.html", posts=posts)
+        self.render_to_file("feed.xml", "feed.xml", posts=posts[:20])
+        self.render_to_file(
+            "post.html",
+            "404.html",
+            title="404 - Page Not Found",
+            content="<p>The page you are looking for does not exist.</p>",
+            fixed_page=True,
+            draft=False,
+            datetime=None,
+        )
+        logger.info("Build completed successfully. Published %d posts.", len(posts))
 
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
-    SiteGenerator("content", "_site", "static", "layout").build()
+    SiteBuilder("content", "_site", "static", "layout").build()

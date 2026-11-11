@@ -2,10 +2,10 @@
 
 {% block content -%}
 <article>
-<h1>{{ title }}</h1>
-{% if not fixed_page %}
-<p><time class="muted italic" datetime="{{ date.strftime('%F') }}">{{ date.strftime('%B %d, %Y') }}</time></p>
-{% endif %}
-{{ content | safe }}
+    <h1>{{ title }}</h1>
+    {% if not fixed_page %}
+    <p><time class="muted italic" datetime="{{ datetime.isoformat() }}">{{ datetime.strftime('%B %d, %Y') }}</time></p>
+    {% endif %}
+    {{ content | safe }}
 </article>
 {%- endblock %}

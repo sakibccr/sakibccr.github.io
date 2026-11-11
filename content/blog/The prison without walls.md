@@ -1,10 +1,9 @@
----
-title: The prison without walls
-slug: the-prison-without-walls
-date: 2026-01-19
-time: "17:13"
-draft: false
----
++++
+title = "The prison without walls"
+slug = "the-prison-without-walls"
+datetime = 2026-01-19T17:13:00
+draft = false
++++
 
 Recently, I came across an introspective question:
 

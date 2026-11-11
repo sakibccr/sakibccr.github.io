@@ -1,9 +1,9 @@
----
-title: About
-slug: about
-fixed_page: true
-draft: false
----
++++
+title = "About"
+slug = "about"
+fixed_page = true
+draft = false
++++
 
 <img class="roundphoto" src="/static/assets/images/sakib.jpg">
 
