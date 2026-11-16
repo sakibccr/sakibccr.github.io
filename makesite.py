@@ -10,6 +10,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+import htmlmin
 import markdown
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from slugify import slugify
@@ -196,13 +197,25 @@ class SiteBuilder:
     def render_to_file(
         self, template_name: str, rel_dest: str | Path, **context: Any
     ) -> None:
-        """Render a Jinja template and write it to the publication directory."""
+        """Render, minify, and write a Jinja template."""
         dest = (self.publish_dir / rel_dest).resolve()
         if not dest.is_relative_to(self.publish_dir):
             raise ValueError(f"Path traversal detected: {rel_dest}")
 
         dest.parent.mkdir(parents=True, exist_ok=True)
+
         rendered = self.env.get_template(template_name).render(**context)
+
+        # Minify HTML output
+        if dest.suffix.lower() == ".html":
+            rendered = htmlmin.minify(
+                rendered,
+                remove_comments=True,
+                remove_empty_space=True,
+                reduce_empty_attributes=True,
+                remove_optional_attribute_quotes=False,
+            )
+
         dest.write_text(rendered, encoding="utf-8")
         logger.info("Generated %s", dest)
 
