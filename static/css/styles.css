@@ -1,11 +1,11 @@
 :root {
     color-scheme: light;
-    --bg: #ffffff;
-    --fg: #000000;
-    --accent: #0055cc;
-    --muted: #555555;
-    --border: #dddddd;
-    --code-bg: #f4f4f4;
+    --bg: #fff;
+    --fg: #000;
+    --accent: #05c;
+    --muted: #555;
+    --border: #ddd;
+    --code-bg: #eee;
 }
 
 *,
@@ -44,11 +44,16 @@ nav a {
     color: var(--accent);
     text-decoration: none;
     font-family: "Iowan Old Style", Palatino, Georgia, serif;
+    display: inline-block;
+    transition: all .7s cubic-bezier(.2, .8, .2, 1);
 }
 
 nav a:hover {
-    font-style: italic;
+    transform: translateY(-3px) rotate(-1deg);
+    letter-spacing: .5px;
+    color: #FD5E53;
 }
+
 
 section {
     margin-bottom: 2.5rem;
