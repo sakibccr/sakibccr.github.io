@@ -1,19 +1,11 @@
 :root {
-    color-scheme: dark;
-    --bg: #0a0e14;
-    /* Abyssal trench black */
-    --fg: #c8d3e0;
-    /* Arctic fog */
-    --theme: #38bdf8;
-    /* Electric ice blue */
-    --muted: #586e85;
-    /* Muted deep ocean slate */
-    --border: #182230;
-    /* Subsea trench seam */
-    --code-bg: #111721;
-    /* Midnight deck plate */
-
-    --font-mono: "Lekton", monospace;
+    color-scheme: light;
+    --bg: #ffffff;
+    --fg: #000000;
+    --accent: #0055cc;
+    --muted: #555555;
+    --border: #dddddd;
+    --code-bg: #f4f4f4;
 }
 
 *,
@@ -22,252 +14,197 @@
     box-sizing: border-box;
 }
 
-html {
-    font-size: clamp(17px, 0.35vw + 16px, 20px);
-    background: var(--bg);
-    scroll-behavior: smooth;
-}
-
 body {
     display: flex;
     flex-direction: column;
-    min-height: 100svh;
-    max-width: 62ch;
+    min-height: 100vh;
+    max-width: 65ch;
     margin: 0 auto;
-    padding: 0 1rem;
+    padding: 0 1.25rem;
     background: var(--bg);
     color: var(--fg);
-    font-family: var(--font-mono);
-    line-height: 1.7;
+    font-family: system-ui, -apple-system, sans-serif;
+    font-size: 1.05rem;
+    line-height: 1.65;
     overflow-wrap: break-word;
-    -webkit-font-smoothing: antialiased;
-}
-
-::selection {
-    background: var(--theme);
-    color: var(--bg);
-}
-
-/* Accessibility Focus States */
-a:focus-visible,
-button:focus-visible {
-    outline: 2px solid var(--theme);
-    outline-offset: 3px;
-    border-radius: 2px;
 }
 
 nav,
 main,
 footer {
-    padding: 2rem 0;
+    padding: 1.5rem 0;
 }
 
 nav {
-    border-block-end: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    text-align: right;
 }
 
-/* Terminal style for site title/nav */
 nav a {
-    color: var(--fg);
-    font-weight: 700;
+    color: var(--accent);
     text-decoration: none;
-    letter-spacing: -0.03em;
-    font-style: italic;
+    font-family: "Iowan Old Style", Palatino, Georgia, serif;
 }
 
 nav a:hover {
-    color: var(--theme);
+    font-style: italic;
 }
 
 section {
-    margin-block-end: 3rem;
+    margin-bottom: 2.5rem;
 }
 
-/* Links are distinctively interactive */
-a {
-    color: var(--theme);
-    text-decoration-line: underline;
-    text-decoration-style: dashed;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 3px;
-}
-
-a:hover {
-    text-decoration: underline;
-    text-decoration-thickness: 1.5px;
-    transition: color 0.15s ease;
-}
-
-/* Headings are crisp structural anchors (White/Fog), NOT link-blue */
 h1,
 h2,
 h3,
 h4 {
-    color: #ffffff;
+    color: var(--fg);
     line-height: 1.25;
-    letter-spacing: -0.03em;
-    text-wrap: balance;
-    font-weight: 700;
+    margin: 2rem 0 0.75rem;
+    font-family: "Iowan Old Style", Palatino, Georgia, serif;
 }
 
 h1 {
-    font-size: clamp(2rem, 4vw, 2.5rem);
-    margin: 0 0 0.75rem;
+    font-size: 2rem;
+    margin-top: 0;
 }
 
 h2 {
     font-size: 1.4rem;
-    margin: 2.5rem 0 0.75rem;
-    border-block-end: 1px solid var(--border);
     padding-bottom: 0.3rem;
+    border-bottom: 1px solid var(--border);
 }
 
 h3 {
-    font-size: 1.2rem;
-    margin-top: 2rem;
+    font-size: 1.15rem;
 }
 
 p {
-    margin-block: 1.25em;
+    margin: 1.2rem 0;
 }
 
-/* Terminal flavor for metadata */
-time {
-    color: var(--muted);
+a {
+    color: var(--accent);
+    text-underline-offset: 3px;
 }
 
-table {
-    border-collapse: collapse;
-    margin-block: 2rem;
+a:focus-visible,
+button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
 }
 
-td {
-    vertical-align: baseline;
-    padding-block: 0.5rem;
-}
-
-td:first-child {
-    white-space: nowrap;
-    color: var(--muted);
-}
-
-td:last-child {
-    padding-inline-start: 1.5rem;
+ul {
+    list-style-type: circle;
 }
 
 ul,
 ol {
-    padding-inline-start: 1.5rem;
-    margin-block: 1.25rem;
+    padding-left: 1.5rem;
+    margin: 1.2rem 0;
 }
 
 li {
-    margin-block: 0.35rem;
+    margin: 0.35rem 0;
 }
 
-li::marker {
-    color: var(--muted);
-}
-
-li:hover::marker {
-    color: var(--theme);
+ul li:hover {
+    list-style-type: disc;
 }
 
 blockquote {
-    margin: 2rem 0;
-    padding-inline-start: 1.25rem;
-    border-inline-start: 2px solid var(--theme);
+    margin: 1.5rem 0;
+    padding-left: 1rem;
+    border-left: 3px solid var(--border);
     color: var(--muted);
     font-style: italic;
 }
 
-code {
-    padding: 0.2em 0.4em;
-    font-family: var(--font-mono);
+code,
+pre {
+    font-family: ui-monospace, monospace;
     background: var(--code-bg);
     border: 1px solid var(--border);
     border-radius: 4px;
-    color: var(--theme);
+}
+
+code {
+    padding: 0.15em 0.35em;
+    font-size: 0.9em;
 }
 
 pre {
     overflow-x: auto;
-    padding: 1.25rem;
-    background: var(--code-bg);
-    border: 1px solid var(--border);
-    border-inline-start: 2px solid var(--theme);
-    border-radius: 6px;
+    padding: 1rem;
+    margin: 1.5rem 0;
     line-height: 1.5;
-    margin-block: 2rem;
 }
 
 pre code {
     padding: 0;
     border: none;
     background: transparent;
-    color: var(--fg);
+    font-size: 0.9rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+}
+
+th,
+td {
+    text-align: left;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+    vertical-align: baseline;
+}
+
+td:first-child {
+    width: 1%;
+    white-space: nowrap;
+    padding-right: 1.5rem;
+    color: var(--muted);
 }
 
 figure {
-    margin: 0;
+    margin: 1.5rem 0;
 }
 
 img {
     max-width: 100%;
     height: auto;
     border-radius: 6px;
-    margin: 1.5rem 0;
 }
 
-p img.roundphoto {
+img.roundphoto {
     max-width: 28%;
     float: right;
+    border-radius: 50%;
     margin: 0 0 1rem 1.5rem;
+}
+
+time {
+    color: var(--muted);
+}
+
+article time {
+    font-style: italic;
 }
 
 footer {
     margin-top: auto;
+    border-top: 1px solid var(--border);
     color: var(--muted);
-    border-block-start: 1px solid var(--border);
-    padding: 2rem 0;
+    font-size: 0.9rem;
 }
 
 footer p {
-    margin-block-end: 0.4rem;
-}
-
-/* Utilities */
-.right {
-    text-align: right;
-}
-
-.smol {
-    font-size: 0.85rem;
-}
-
-.muted {
-    color: var(--muted);
-}
-
-.italic {
-    font-style: italic;
-}
-
-.roundphoto {
-    border-radius: 50%;
+    margin: 0.4rem 0;
 }
 
 .copyleft {
     display: inline-block;
     transform: scale(-1, 1);
-}
-
-@media (prefers-reduced-motion: reduce) {
-    html {
-        scroll-behavior: auto;
-    }
-
-    a {
-        transition: none;
-    }
 }

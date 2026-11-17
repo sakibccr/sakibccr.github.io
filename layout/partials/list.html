@@ -1,7 +1,7 @@
 <table>
     {% for post in posts -%}
     <tr>
-        <td><time class="muted" datetime="{{ post.datetime.isoformat() }}">{{ post.datetime.strftime('%B %d, %Y')
+        <td><time datetime="{{ post.datetime.isoformat() }}">{{ post.datetime.strftime('%B %d, %Y')
                 }}</time></td>
         <td><a href="{{ post.url }}">{{ post.title }}</a></td>
     </tr>
