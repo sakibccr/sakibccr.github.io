@@ -1,12 +1,14 @@
+
 :root {
     color-scheme: light;
+
     --bg: #E8B77C;
-    --fg: #291C03;
-    --accent: #05c;
-    --bright: #000;
-    --muted: #666;
-    --border: #ddd;
-    --code-bg: #eee;
+    --fg: #38251B;
+    --accent: #7C3826;
+    --bright: #FFF3E2;
+    --muted: #755C48;
+    --border: #C49A70;
+    --code-bg: #F1D3AE;
 }
 
 *,
