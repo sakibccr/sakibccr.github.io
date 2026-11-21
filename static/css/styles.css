@@ -1,14 +1,21 @@
 
 :root {
-    color-scheme: light;
+    color-scheme: dark;
 
-    --bg: #E8B77C;
-    --fg: #38251B;
-    --accent: #7C3826;
-    --bright: #FFF3E2;
-    --muted: #755C48;
-    --border: #C49A70;
-    --code-bg: #F1D3AE;
+    /* Backgrounds & text */
+    --bg: #19171D;
+    --fg: #D2C7CE;
+
+    /* Accents */
+    --accent: #A77C91;
+    --bright: #E8DDE2;
+
+    /* Muted elements */
+    --muted: #91828D;
+    --border: #39313C;
+
+    /* Code blocks */
+    --code-bg: #24202A;
 }
 
 *,
