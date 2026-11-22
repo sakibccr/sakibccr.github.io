@@ -1,21 +1,20 @@
-
 :root {
     color-scheme: dark;
 
     /* Backgrounds & text */
-    --bg: #19171D;
-    --fg: #D2C7CE;
+    --bg: #1B1715;
+    --fg: #D8CFC6;
 
     /* Accents */
-    --accent: #A77C91;
-    --bright: #E8DDE2;
+    --accent: #C87D55;
+    --bright: #EDE5DC;
 
     /* Muted elements */
-    --muted: #91828D;
-    --border: #39313C;
+    --muted: #94877C;
+    --border: #38302B;
 
     /* Code blocks */
-    --code-bg: #24202A;
+    --code-bg: #25201D;
 }
 
 *,
